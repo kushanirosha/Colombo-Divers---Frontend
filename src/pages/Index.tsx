@@ -10,6 +10,8 @@ import Awardsection from "../components/Awardsection";
 import Navbar from "../Layout/Navbar";
 import Footer from "../Layout/Footer";
 import Lastsection from "../components/Lastsection";
+import HeroSection from "../components/HeroSection";
+import SpecialOffers from "../components/SpecialOffers";
 
 const Index = () => {
 	const [destination, setDestination] = useState("");
@@ -28,7 +30,7 @@ const Index = () => {
 		<>
         {/* Navbar Section */}
         <Navbar/>
-			<div
+			{/* <div
 				style={{
 					backgroundImage:
 						"url('https://images.unsplash.com/photo-1749186012550-14654bad71a6?q=80&w=2094&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D')",
@@ -37,7 +39,7 @@ const Index = () => {
 			>
 				<div style={{ textAlign: "center", color: "#fff", marginBottom: "40px" }}>
 					<h1 style={{ fontFamily: "cursive", fontSize: "3rem", fontWeight: "bold", textShadow: "2px 2px 8px #000" }}>
-						Paradisepeak Travels
+						Colombo Divers
 					</h1>
 					<h2 style={{ fontWeight: "normal", fontSize: "1.5rem", textShadow: "1px 1px 6px #000" }}>
 						Book your diving
@@ -81,10 +83,14 @@ const Index = () => {
 						}
 					}
 				`}</style>
-			</div>
+			</div> */}
+
+			<HeroSection/>
 
             {/* learn more section */}
 			<Learnmore />
+
+			<SpecialOffers/>
 
             {/* services section */}
             <Services />

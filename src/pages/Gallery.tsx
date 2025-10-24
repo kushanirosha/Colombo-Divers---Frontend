@@ -96,7 +96,7 @@ const Gallery = () => {
           {filteredItems.map((item, idx) => {
             const imgSrc = item.image?.startsWith("http")
               ? item.image
-              : `https://backend.paradisepeaktravels.com${item.image}`;
+              : `https://backend.colombodivers.ceylonecreative.online${item.image}`;
 
             return (
               <div

@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import LM from "../public/images/Home/learnmore.webp"
 
 // Custom hook for animated counter
 const useAnimatedCounter = (end: number, duration: number = 2000, shouldStart: boolean = false) => {
@@ -267,8 +268,8 @@ const Learnmore = () => {
 				<div style={textContainerStyle}>
 					<div style={accentLineStyle}></div>
 					<h2 style={titleStyle}>
-						Paradise<br />
-						<span style={{ fontWeight: "400" }}>Peak</span>
+						Colombo<br />
+						<span style={{ fontWeight: "400" }}>Divers</span>
 					</h2>
 					<div ref={revealRef}>
 						<p style={subtitleStyle}>
@@ -308,7 +309,7 @@ const Learnmore = () => {
 				</div>
 				<div style={imageContainerStyle}>
 					<img
-						src="https://images.unsplash.com/photo-1553512313-64af79fdfe9c?q=80&w=1964&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+						src= {LM}
 						style={mainImageStyle}
 					/>
 				</div>

@@ -48,7 +48,7 @@ const Bookable = () => {
 
 	const getImageUrl = (imagePath?: string) => {
 		if (imagePath) {
-			return `https://backend.paradisepeaktravels.com${imagePath}`;
+			return `https://backend.colombodivers.ceylonecreative.online${imagePath}`;
 		}
 		return null;
 	};

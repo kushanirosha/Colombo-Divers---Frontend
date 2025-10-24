@@ -19,7 +19,7 @@ const Testimonials = () => {
 
   const fetchTestimonials = async () => {
     try {
-      const res = await fetch("https://backend.paradisepeaktravels.com/api/v1/reviews");
+      const res = await fetch("https://backend.colombodivers.ceylonecreative.online/api/v1/reviews");
       if (!res.ok) return;
       const data: ReviewItem[] = await res.json();
       const approved = data.filter((r) => r.status === "Approved");
