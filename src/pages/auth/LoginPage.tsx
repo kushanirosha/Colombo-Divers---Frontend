@@ -81,7 +81,7 @@ function LoginPage() {
             <div className="w-10 h-10 bg-white rounded-full flex items-center justify-center">
               <img src="/Logo/Logo.png" alt="Logo" className="w-6 h-6" />
             </div>
-            <span className="text-white text-xl font-semibold ml-3">Paradise Travels</span>
+            <span className="text-white text-xl font-semibold ml-3">Colombo Divers</span>
           </div>
 
           <div className="absolute bottom-12 left-8 text-white max-w-sm">

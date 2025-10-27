@@ -1,6 +1,5 @@
 import React from 'react'
 import Layout from '../components/Layout'
-import '../App.css'
 import { useNavigate } from "react-router-dom";
 // import bannerImage from "../assets/images.jpeg";
 import { FaStar, FaStarHalfAlt, FaRegStar } from "react-icons/fa";

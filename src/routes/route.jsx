@@ -25,13 +25,11 @@ import VerifySubscriber from '../pages/VerifySubscriber'
 function AppRoutes() {
   return (
     <Router>
-       <ToastContainer />
+      <ToastContainer />
       <Routes>
-
         <Route path="/login" element={<PublicRoute element={<LoginPage />} />} />
-        <Route path="/signup" element={<PublicRoute element={<SignUp/>} />}/>
+        <Route path="/signup" element={<PublicRoute element={<SignUp />} />} />
 
-    
         <Route path="/" element={<Index />} />
         <Route path="/contact" element={<ContactUs />} />
         <Route path="/packages" element={<Packages />} />
@@ -40,16 +38,14 @@ function AppRoutes() {
         <Route path="/packages/:slug" element={<PackageDetails />} />
         <Route path="/about" element={<About />} />
         <Route path="/review" element={<AddReview />} />
-    
 
         <Route path="/userreview" element={<UserReview />} />
         <Route path="/dashboard" element={<DashboardLayout />} />
         <Route path="/sharephotos" element={<UserPhotoSubmission />} />
-         <Route path="/subscribers/unsubscribe" element={<Unsubscribe />} />
-         <Route path="/subscribers/verify" element={<VerifySubscriber />} />
-          <Route path="/bookinghistory" element={<BookingHistory/>} />
+        <Route path="/subscribers/unsubscribe" element={<Unsubscribe />} />
+        <Route path="/subscribers/verify" element={<VerifySubscriber />} />
+        <Route path="/bookinghistory" element={<BookingHistory />} />
 
-    
       </Routes>
     </Router>
   )

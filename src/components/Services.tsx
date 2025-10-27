@@ -1,6 +1,16 @@
 import React from "react";
-import { FaSwimmer, FaUserNinja, FaCameraRetro, FaMapMarkedAlt } from "react-icons/fa";
-import { Link } from "react-router";
+import {
+  FaSwimmer,
+  FaUserNinja,
+  FaCameraRetro,
+  FaMapMarkedAlt,
+} from "react-icons/fa";
+import { Link } from "react-router-dom";
+
+import DiveBeginner from "../assets/img/Home/Services/1.webp";
+import DiveAdvanced from "../assets/img/Home/Services/2.webp";
+import DivePhoto from "../assets/img/Home/Services/3.webp";
+import DiveExplore from "../assets/img/Home/Services/4.webp";
 
 type Service = {
   icon: React.ReactNode;
@@ -13,323 +23,127 @@ type Service = {
 
 const services: Service[] = [
   {
-	 icon: <FaSwimmer size={36} color="#000000ff" />,
-	 title: "Open Water Diving",
-	 description: "Perfect for beginners. Get certified and explore depth up to 18 meters with our expert instructors.",
-	 features: ["PADI Certification", "6-Day Course", "Equipment Included"],
-	 image:
-	   "https://images.unsplash.com/photo-1620200221673-893d12cab0ef?q=80&w=2056&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-	 alt: "Beginner open water diver in the ocean",
+    icon: <FaSwimmer size={36} className="text-[#000000]" />,
+    title: "Open Water Diver Course",
+    description:
+      "Start your scuba diving journey with the Open Water Diver certification. Learn essential techniques and dive up to 18 meters safely.",
+    features: ["PADI Certification", "6-Day Course", "All Equipment Included"],
+    image: DiveBeginner,
+    alt: "Beginner diver training underwater",
   },
   {
-	 icon: <FaUserNinja size={36} color="#000000ff" />,
-	 title: "Open Water Diving",
-	 description: "Take your skills to the next level with advanced techniques and deeper dive experiences.",
-	 features: ["Deep Diving", "Night Diving", "Wreck Exploration"],
-	 image:
-	   "https://plus.unsplash.com/premium_photo-1736421942363-087a0ebec563?q=80&w=1964&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-	 alt: "Advanced diver exploring a shipwreck",
+    icon: <FaUserNinja size={36} className="text-[#000000]" />,
+    title: "Advanced Open Water Diving",
+    description:
+      "Level up your diving experience! Practice advanced techniques, explore deeper waters, and master buoyancy and navigation.",
+    features: ["Deep Dive Training", "Night Diving", "Underwater Navigation"],
+    image: DiveAdvanced,
+    alt: "Advanced diver exploring the ocean depths",
   },
   {
-	 icon: <FaCameraRetro size={36} color="#000000ff" />,
-	 title: "Open Water Diving",
-	 description: "Capture the beauty of marine life with our specialized underwater photography courses.",
-	 features: ["Professional Guidance", "Equipment Rental", "Photo Editing Tips"],
-	 image:
-	   "https://images.unsplash.com/photo-1615276422818-9b881f6adce5?q=80&w=1960&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-	 alt: "Underwater photographer capturing marine life",
+    icon: <FaCameraRetro size={36} className="text-[#000000]" />,
+    title: "Underwater Photography",
+    description:
+      "Capture the magic of the underwater world. Learn composition, lighting, and camera handling techniques underwater.",
+    features: ["Photography Workshop", "Equipment Rental", "Editing Tips"],
+    image: DivePhoto,
+    alt: "Diver taking photos underwater",
   },
   {
-	 icon: <FaMapMarkedAlt size={36} color="#000000ff" />,
-	 title: "Open Water Diving",
-	 description: "Explore Sri Lanka's diving spots including coral reefs, shipwrecks, and marine sanctuaries.",
-	 features: ["Multiple Locations", "Transport Included", "Marine Life Guide"],
-	 image:
-	   "https://images.unsplash.com/photo-1590602391331-45262cb1cb87?q=80&w=2127&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-	 alt: "Scenic coral reef with vibrant fish in Sri Lanka",
+    icon: <FaMapMarkedAlt size={36} className="text-[#000000]" />,
+    title: "Dive Exploration Tours",
+    description:
+      "Join our guided diving tours to Sri Lanka’s best coral reefs and shipwrecks. Experience marine biodiversity like never before!",
+    features: ["Multiple Dive Spots", "Certified Guides", "Transport Included"],
+    image: DiveExplore,
+    alt: "Group of divers exploring coral reefs",
   },
 ];
 
 const Services = () => {
-	const [openIndex, setOpenIndex] = React.useState<number | null>(null);
-	const sectionRef = React.useRef<HTMLElement>(null);
-	const itemRefs = React.useRef<Array<HTMLDivElement | null>>([]);
-	const scrollTimeout = React.useRef<number | null>(null);
+  const [hoverIndex, setHoverIndex] = React.useState<number>(0);
 
-	const toggle = (idx: number) => {
-		setOpenIndex(prev => (prev === idx ? null : idx));
-	};
+  return (
+    <section className="bg-white py-24 min-h-screen">
+      <div className="max-w-7xl mx-auto px-6">
+        {/* Header */}
+        <div className="mb-16 text-left">
+          <p className="text-[#0f0061] text-2xl uppercase tracking-wider mb-3">
+            Our Services
+          </p>
+          <h2 className="text-[#0003af] text-4xl mb-4 leading-tight">
+            Unlock Our Exclusive <br /> Services Just for You
+          </h2>
+          <p className="text-gray-600 max-w-md">
+            Experience tailor-made diving adventures designed for beginners and
+            experts alike — explore the beauty of Sri Lanka’s underwater world.
+          </p>
+        </div>
 
-	const onHeaderKeyDown = (e: React.KeyboardEvent<HTMLDivElement>, idx: number) => {
-		if (e.key === 'Enter' || e.key === ' ') {
-			e.preventDefault();
-			toggle(idx);
-		}
-	};
+        {/* Content */}
+        <div className="grid md:grid-cols-2 gap-20 items-start">
+          {/* Left image */}
+          <div className="sticky top-28">
+            <img
+              src={services[hoverIndex].image}
+              alt={services[hoverIndex].alt}
+              className="w-full h-[700px] object-cover shadow-xl transition-all duration-500"
+            />
+          </div>
 
+          {/* Right service list */}
+          <div className="space-y-12">
+            {services.map((service, idx) => (
+              <div
+                key={idx}
+                onMouseEnter={() => setHoverIndex(idx)}
+                className={`group border-b border-gray-200 pb-10 transition-all duration-300 ${
+                  idx === services.length - 1 ? "border-none pb-0" : ""
+                }`}
+              >
+                {/* Header */}
+                <div className="flex items-start cursor-pointer">
+                  <span className="text-[#0b006b] text-lg font-semibold mr-3 min-w-[30px]">
+                    {String(idx + 1).padStart(2, "0")}.
+                  </span>
+                  <h3 className="text-gray-800 font-semibold text-xl">
+                    {service.title}
+                  </h3>
+                </div>
 
-	React.useEffect(() => {
-		if (openIndex === null) return;
-		if (scrollTimeout.current) {
-			window.clearTimeout(scrollTimeout.current);
-		}
+                {/* Expandable Content */}
+                <div
+                  className={`ml-10 overflow-hidden transition-all duration-500 ease-in-out ${
+                    hoverIndex === idx
+                      ? "max-h-[400px] opacity-100 translate-y-0"
+                      : "max-h-0 opacity-0 -translate-y-2"
+                  }`}
+                >
+                  <p className="text-gray-600 text-sm mt-4 mb-3 leading-relaxed">
+                    {service.description}
+                  </p>
+                  <ul className="space-y-2">
+                    {service.features.map((feature, i) => (
+                      <li key={i} className="flex items-center text-sm text-gray-700">
+                        <div className="w-2 h-2 bg-[#001780] rounded-full mr-3"></div>
+                        {feature}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              </div>
+            ))}
 
-		scrollTimeout.current = window.setTimeout(() => {
-			const el = itemRefs.current[openIndex!];
-			if (el) {
-				el.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-			}
-		}, 60);
-		return () => {
-			if (scrollTimeout.current) {
-				window.clearTimeout(scrollTimeout.current);
-			}
-		};
-	}, [openIndex]);
-
-	React.useEffect(() => {
-		const node = sectionRef.current;
-		if (!node) return;
-		const observer = new IntersectionObserver(
-			([entry]) => {
-				if (!entry.isIntersecting) {
-					setOpenIndex(null);
-				}
-			},
-			{ threshold: 0 }
-		);
-		observer.observe(node);
-		return () => observer.disconnect();
-	}, []);
-
-	return (
-		<section ref={sectionRef} style={{ 
-			background: "#ffffffff", 
-			padding: "100px 20px",
-			minHeight: "100vh"
-		}}>
-			<div style={{ 
-				maxWidth: "1200px", 
-				margin: "0 auto",
-			}}>
-				{/* Header Section */}
-				<div style={{ 
-					textAlign: "left", 
-					marginBottom: "60px" 
-				}}>
-					<p style={{ 
-						color: "#0f0061ff", 
-						fontSize: "2rem", 
-						fontWeight: "700",
-						marginBottom: "10px",
-						textTransform: "uppercase",
-						letterSpacing: "0.1em"
-					}}>
-						Our Services
-					</p>
-					<h2 style={{ 
-						color: "#0003afff", 
-						fontWeight: "700", 
-						fontSize: "2.5rem", 
-						marginBottom: "20px",
-						fontFamily: "'Inter', -apple-system, sans-serif",
-						lineHeight: "1.2"
-					}}>
-						Unlock Our Exclusive<br />
-						Services Just for You
-					</h2>
-					<p style={{ 
-						color: "#666", 
-						fontSize: "1rem", 
-						maxWidth: "500px",
-						lineHeight: "1.6"
-					}}>
-						Experience tailor-made solutions designed to elevate your journey only available here.
-					</p>
-				</div>
-
-				<div style={{
-					display: "grid",
-					gridTemplateColumns: "1fr 1fr",
-					gap: "80px",
-					alignItems: "start"
-				}}>
-					{(() => {
-						const activeIndex = openIndex ?? 0;
-						const active = services[activeIndex];
-						return (
-							<div style={{ 
-								position: "sticky",
-								top: 120,
-								alignSelf: "start"
-							}}>
-								<img
-									src={active.image}
-									alt={active.alt}
-									style={{
-										width: "100%",
-										height: "700px",
-										objectFit: "cover",
-										boxShadow: "0 20px 40px rgba(0,0,0,0.1)",
-										transition: "opacity 0.3s ease",
-									}}
-								/>
-							</div>
-						);
-					})()}
-
-
-					<div 
-						style={{ 
-							padding: "20px 0"
-						}}
-						onMouseEnter={() => setOpenIndex(prev => (prev === null ? 0 : prev))}
-						onMouseLeave={() => setOpenIndex(null)}
-					>
-						{services.map((service, idx) => (
-							<div
-								key={idx}
-								style={{
-									marginBottom: "40px",
-									padding: "0",
-									borderBottom: idx < services.length - 1 ? "1px solid #e5e5e5" : "none",
-									paddingBottom: idx < services.length - 1 ? "40px" : "0"
-								}}
-								onMouseEnter={() => setOpenIndex(idx)}
-								ref={(el) => { itemRefs.current[idx] = el; }}
-							>
-								{(() => {
-									const isOpen = openIndex === idx;
-									return (
-										<>
-
-											<div
-												role="button"
-												tabIndex={0}
-												onClick={() => toggle(idx)}
-												onKeyDown={(e) => onHeaderKeyDown(e, idx)}
-												aria-expanded={isOpen}
-												style={{
-													display: "flex",
-													alignItems: "flex-start",
-													marginBottom: "15px",
-													cursor: "pointer",
-													userSelect: "none"
-												}}
-											>
-												<span style={{
-													color: "#0b006bff",
-													fontSize: "1.2rem",
-													fontWeight: "700",
-													marginRight: "15px",
-													minWidth: "30px"
-												}}>
-													{String(idx + 1).padStart(2, '0')}.
-												</span>
-												<h3 style={{ 
-													color: "#2c3e50", 
-													fontWeight: "600", 
-													fontSize: "1.3rem", 
-													margin: "0",
-													lineHeight: "1.3"
-												}}>
-													{service.title}
-												</h3>
-												<span
-													aria-hidden="true"
-													style={{
-														marginLeft: "auto",
-														color: "#00026dff",
-														transition: "transform 0.25s ease",
-														transform: isOpen ? "rotate(180deg)" : "rotate(0deg)",
-														fontSize: "1.2rem",
-														lineHeight: 1
-													}}
-												>
-													▾
-												</span>
-											</div>
-
-											<div
-												style={{
-													marginLeft: "45px",
-													overflow: "hidden",
-													maxHeight: isOpen ? "500px" : "0px",
-													opacity: isOpen ? 1 : 0,
-													transform: isOpen ? "translateY(0)" : "translateY(-6px)",
-													transition: "max-height 0.4s ease, opacity 0.3s ease, transform 0.3s ease"
-												}}
-											>
-
-												<p style={{ 
-													color: "#666", 
-													fontSize: "0.95rem", 
-													lineHeight: "1.6",
-													marginBottom: "15px"
-												}}>
-													{service.description}
-												</p>
-
-												<div>
-													{service.features.map((feature, i) => (
-														<div key={i} style={{
-															display: "flex",
-															alignItems: "center",
-															marginBottom: "5px"
-														}}>
-															<div style={{
-																width: "6px",
-																height: "6px",
-																backgroundColor: "#001780ff",
-																borderRadius: "50%",
-																marginRight: "12px"
-															}}></div>
-															<span style={{
-																color: "#555",
-																fontSize: "0.9rem"
-															}}>
-																{feature}
-															</span>
-														</div>
-													))}
-												</div>
-											</div>
-										</>
-									);
-								})()}
-							</div>
-						))}
-
-						<Link to="/packages" style={{ textDecoration: 'none' }}>
-							<button
-								style={{
-									background: "linear-gradient(135deg, #001263ff 0%, #001263ff 100%)",
-									color: "#fff",
-									border: "none",
-									padding: "15px 40px",
-									fontSize: "1rem",
-									fontWeight: "600",
-									cursor: "pointer",
-									transition: "all 0.3s ease",
-									marginTop: "30px"
-								}}
-								onMouseOver={(e) => {
-									e.currentTarget.style.transform = "translateY(-3px)";
-									e.currentTarget.style.boxShadow = "0 15px 40px rgba(102, 126, 234, 0.4)";
-								}}
-								onMouseOut={(e) => {
-									e.currentTarget.style.transform = "translateY(0)";
-									e.currentTarget.style.boxShadow = "0 10px 30px rgba(102, 126, 234, 0.3)";
-								}}
-							>
-								Explore All Services
-							</button>
-						</Link>
-					</div>
-				</div>
-			</div>
-		</section>
-	);
+            <Link to="/packages">
+              <button className="bg-[#001263] text-white px-10 py-4 font-semibold mt-6 shadow-lg transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl">
+                Explore All Services
+              </button>
+            </Link>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
 };
 
 export default Services;

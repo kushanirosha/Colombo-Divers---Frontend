@@ -1,11 +1,17 @@
 import React, { useState } from "react";
-import ApiService from "../services/ApiService";
-import axios from "axios";
 import { useTranslation } from "react-i18next";
 import ReCAPTCHA from "react-google-recaptcha";
+import {
+  FaFacebookF,
+  FaInstagram,
+  FaPhoneAlt,
+  FaEnvelope,
+  FaMapMarkerAlt,
+  FaClock,
+} from "react-icons/fa";
+
 const Contact = () => {
   const { t } = useTranslation();
-  const [type, setType] = useState("General");
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState("");
   const [error, setError] = useState("");
@@ -16,12 +22,14 @@ const Contact = () => {
     message: "",
   });
   const [captchaToken, setCaptchaToken] = useState<string | null>(null);
+
   const handleCaptcha = (token: string | null) => {
     setCaptchaToken(token);
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+
     if (!captchaToken) {
       setError("Please complete the CAPTCHA.");
       return;
@@ -30,242 +38,191 @@ const Contact = () => {
     setLoading(true);
     setError("");
     setSuccess("");
+
+    const formData = new FormData();
+    formData.append("access_key", "YOUR_DUMMY_WEB3FORMS_ACCESS_KEY");
+    formData.append("name", values.name);
+    formData.append("email", values.email);
+    formData.append("phone", values.phonenumber);
+    formData.append("message", values.message);
+
     try {
-      const contactData = {
-        ...values,
-        captcha: captchaToken,
-      };
-      const response = await ApiService.contact(contactData);
-      setSuccess(response.message);
-      setTimeout(() => setSuccess(""), 5000);
-      //   navigate("/");
-    } catch (err: unknown) {
-      if (axios.isAxiosError(err)) {
-        setError(err.response?.data?.message || "Something went wrong.");
-      } else if (err instanceof Error) {
-        setError(err.message);
+      const response = await fetch("https://api.web3forms.com/submit", {
+        method: "POST",
+        body: formData,
+      });
+
+      const result = await response.json();
+
+      if (result.success) {
+        setSuccess("Your message has been sent successfully!");
+        setValues({ name: "", email: "", phonenumber: "", message: "" });
+        setCaptchaToken(null);
       } else {
-        setError("An unexpected error occurred");
+        setError("Something went wrong. Please try again.");
       }
+    } catch {
+      setError("Unable to send message. Please try again later.");
     } finally {
       setLoading(false);
     }
   };
 
   return (
-    <div style={{ background: "#fff", minHeight: "80vh", padding: "40px 0" }}>
-      <div
-        style={{
-          display: "flex",
-          flexWrap: "wrap",
-          justifyContent: "center",
-          alignItems: "flex-start",
-          maxWidth: "1200px",
-          margin: "0 auto",
-          gap: "32px",
-        }}
-      >
-        <div
-          style={{ flex: "1 1 420px", minWidth: "320px", padding: "24px 0" }}
-        >
-          <h2
-            style={{
-              fontWeight: 700,
-              fontSize: "2.4rem",
-              marginBottom: "12px",
-              color: "#000a91ff",
-            }}
-          >
-            Not sure where to go?
-            <br />
-            <p style={{ fontSize: "1rem", color: "#666" }}>
-              Get some inspiration from our travel themes.
-            </p>
+    <section className="bg-gray-50 py-16">
+      <div className="max-w-7xl mx-auto px-6 flex flex-wrap justify-center gap-56">
+        {/* Left Info Section */}
+        <div className="flex-1 min-w-[340px] max-w-lg">
+          <h2 className="text-3xl text-[#00137e] mb-4 font-semibold">
+            Get in Touch with Colombo Divers
           </h2>
-          <div
-            style={{
-              color: "#666",
-              fontSize: "1.08rem",
-              marginBottom: "32px",
-              maxWidth: "420px",
-            }}
-          >
-            Our website is designed to help you find what you need to book a
-            great trip. If you can't find what you're looking for, let us know.
-          </div>
-          <div style={{ display: "flex", gap: "32px", flexWrap: "wrap" }}>
+          <p className="text-gray-600 mb-6">
+            Whether you're planning your first dive or your next big adventure,
+            our team is here to help you every step of the way.
+          </p>
+
+          {/* Locations */}
+          <div className="flex flex-wrap gap-10">
             <div>
-              <div
-                style={{ fontWeight: 600, marginBottom: "6px", color: "#222" }}
-              >
-                Location
+              <div className="flex items-center gap-2 text-[#00137e]">
+                <FaMapMarkerAlt />
+                <span>Trincomalee</span>
               </div>
-              <div style={{ color: "#444", fontSize: "0.98rem" }}>
-                Colombo, Sri Lanka
-                <br />
-                Addu, Maldives
-                <br />
-              </div>
+              <p className="text-gray-700 ml-6 text-sm">
+                Nilaveli Beach Road, Trincomalee, Sri Lanka
+              </p>
             </div>
             <div>
-              <div
-                style={{ fontWeight: 600, marginBottom: "6px", color: "#222" }}
-              >
-                Social Media
+              <div className="flex items-center gap-2 text-[#00137e]">
+                <FaMapMarkerAlt />
+                <span>Negombo</span>
               </div>
-              <div style={{ color: "#444", fontSize: "0.98rem" }}>
-                Instagram
-                <br />
-                Facebook
-                <br />
-              </div>
+              <p className="text-gray-700 ml-6 text-sm">
+                Lewis Place, Negombo, Sri Lanka
+              </p>
             </div>
           </div>
-          <div
-            style={{ marginTop: "24px", color: "#444", fontSize: "0.98rem" }}
-          >
+
+          {/* Hotline, Email, Hours */}
+          <div className="mt-8 space-y-4">
             <div>
-              <span style={{ fontWeight: 600 }}>Email</span>
-              <br />
-              colombodivers@gmail.com
+              <div className="flex items-center gap-2 text-[#00137e]">
+                <FaPhoneAlt />
+                <span>Hotline</span>
+              </div>
+              <p className="ml-6 text-gray-700 text-sm">+94 11 234 3456</p>
             </div>
-            <div style={{ marginTop: "10px" }}>
-              <span style={{ fontWeight: 600 }}>Contact</span>
-              <br />
-              +00 9478 5623 023
+
+            <div>
+              <div className="flex items-center gap-2 text-[#00137e]">
+                <FaEnvelope />
+                <span>Email</span>
+              </div>
+              <p className="ml-6 text-gray-700 text-sm">info@colombodivers.lk</p>
             </div>
+
+            <div>
+              <div className="flex items-center gap-2 text-[#00137e]">
+                <FaClock />
+                <span>Working Hours</span>
+              </div>
+              <p className="ml-6 text-gray-700 text-sm">
+                Open Every Day — 8:00 AM to 5:00 PM
+              </p>
+            </div>
+          </div>
+
+          {/* Social */}
+          <div className="mt-8 flex items-center gap-4">
+            <span className="text-[#00137e] font-medium">Follow Us:</span>
+            <a
+              href="https://facebook.com"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-[#00137e] hover:text-blue-700 transition text-lg"
+            >
+              <FaFacebookF />
+            </a>
+            <a
+              href="https://instagram.com"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-[#00137e] hover:text-pink-600 transition text-lg"
+            >
+              <FaInstagram />
+            </a>
           </div>
         </div>
 
-        <div
-          style={{
-            flex: "1 1 480px",
-            minWidth: "340px",
-            background: "#fafbfc",
-            boxShadow: "0 2px 24px rgba(0,0,0,0.08)",
-            padding: "32px 32px 24px 32px",
-            maxWidth: "480px",
-          }}
-        >
-          <h3
-            style={{
-              fontWeight: 700,
-              fontSize: "1.35rem",
-              marginBottom: "8px",
-              color: "#222",
-            }}
-          >
-            {error && (
-              <p className="text-red-600 font-semibold mb-2">{error}</p>
-            )}
-            {success && (
-              <p className="text-green-600 font-semibold mb-2">{success}</p>
-            )}
-            Tell Us What You Need
+        {/* Contact Form */}
+        <div className="flex-1 min-w-[340px] max-w-md bg-white shadow-md border border-gray-200 p-8">
+          <h3 className="text-xl font-semibold text-[#00137e] mb-4">
+            Contact Form
           </h3>
-          <div
-            style={{ color: "#666", fontSize: "1rem", marginBottom: "18px" }}
-          >
-            Our team is ready to assist you with every detail, big or small.
-          </div>
+
+          {error && <p className="text-red-600 text-sm mb-2">{error}</p>}
+          {success && <p className="text-green-600 text-sm mb-2">{success}</p>}
+
           <form
-            style={{ display: "flex", flexDirection: "column", gap: "14px" }}
             onSubmit={handleSubmit}
+            className="flex flex-col gap-4 text-gray-700"
           >
-            <div style={{ display: "flex", gap: "12px" }}>
-              <input
-                type="text"
-                placeholder="Name"
-                style={inputStyle}
-                required
-                onChange={(e) => setValues({ ...values, name: e.target.value })}
-              />
-            </div>
-            <div style={{ display: "flex", gap: "12px" }}>
-              <input
-                type="text"
-                placeholder="Phone Number"
-                style={inputStyle}
-                required
-                onChange={(e) =>
-                  setValues({ ...values, phonenumber: e.target.value })
-                }
-              />
-            </div>
+            <input
+              type="text"
+              placeholder="Name"
+              required
+              value={values.name}
+              className="border border-gray-300 p-2 text-sm w-full focus:border-[#00137e] focus:outline-none"
+              onChange={(e) => setValues({ ...values, name: e.target.value })}
+            />
+            <input
+              type="text"
+              placeholder="Phone Number"
+              required
+              value={values.phonenumber}
+              className="border border-gray-300 p-2 text-sm w-full focus:border-[#00137e] focus:outline-none"
+              onChange={(e) =>
+                setValues({ ...values, phonenumber: e.target.value })
+              }
+            />
             <input
               type="email"
               placeholder="Email Address"
-              style={{ ...inputStyle, width: "100%" }}
               required
+              value={values.email}
+              className="border border-gray-300 p-2 text-sm w-full focus:border-[#00137e] focus:outline-none"
               onChange={(e) => setValues({ ...values, email: e.target.value })}
             />
-
             <textarea
               placeholder="Message"
               rows={4}
-              style={{ ...inputStyle, resize: "vertical", width: "100%" }}
-              onChange={(e) =>
-                setValues({ ...values, message: e.target.value })
-              }
               required
+              value={values.message}
+              className="border border-gray-300 p-2 text-sm resize-y w-full focus:border-[#00137e] focus:outline-none"
+              onChange={(e) => setValues({ ...values, message: e.target.value })}
             />
-            <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
-              <input
-                type="checkbox"
-                id="offers"
-                style={{ accentColor: "#2176ff" }}
-              />
-              <label
-                htmlFor="offers"
-                style={{ color: "#444", fontSize: "0.98rem" }}
-              >
-                I'd like to receive exclusive offers and updates
-              </label>
-            </div>
-            <div
-              style={{
-                display: "flex",
-                justifyContent: "center",
-                margin: "20px 0",
-              }}
-            >
+
+            <div className="flex justify-center my-3">
               <ReCAPTCHA
                 sitekey="6LdOddgrAAAAABkF1ofe5TSUTK5RkMM-t7dH5Dhn"
                 onChange={handleCaptcha}
               />
             </div>
+
             <button
               type="submit"
               disabled={loading}
-              style={{
-                background: loading ? "#95a5a6" : "#00137eff",
-                color: "#fff",
-                padding: "12px 0",
-                fontWeight: "bold",
-                fontSize: "1.08rem",
-                marginTop: "8px",
-                boxShadow: "0 2px 8px rgba(0,0,0,0.08)",
-                width: "100%",
-                cursor: loading ? "not-allowed" : "pointer",
-              }}
+              className={`${
+                loading ? "bg-gray-400" : "bg-[#00137e] hover:bg-blue-900"
+              } text-white py-2 text-sm uppercase tracking-wide transition-all duration-300`}
             >
               {loading ? "Sending..." : "Submit"}
-              {/* Submit */}
             </button>
           </form>
         </div>
       </div>
-    </div>
+    </section>
   );
-};
-
-const inputStyle = {
-  padding: "10px 16px",
-  border: "1px solid #ccc",
-  fontSize: "1rem",
-  background: "#fff",
-  width: "100%",
-  outline: "none",
 };
 
 export default Contact;

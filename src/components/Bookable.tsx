@@ -1,348 +1,133 @@
 import React, { useState, useEffect } from "react";
-import { FaStar, FaHeart, FaRegHeart, FaChevronLeft, FaChevronRight } from "react-icons/fa";
+import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
 import { Link, useNavigate } from "react-router-dom";
-import { Package } from '../services/packageService';
-import { packageService } from '../services/packageService';
+import { Package } from "../services/packageService";
+import { packageService } from "../services/packageService";
 
-const Bookable = () => {
-	const [packages, setPackages] = useState<Package[]>([]);
-	const [loading, setLoading] = useState(true);
-	const [favorites, setFavorites] = useState<Set<string>>(new Set());
-	const [currentSlide, setCurrentSlide] = useState(0);
-	const navigate = useNavigate();
+const Bookable: React.FC = () => {
+  const [packages, setPackages] = useState<Package[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [currentSlide, setCurrentSlide] = useState(0);
+  const navigate = useNavigate();
 
-	useEffect(() => {
-		loadFeaturedPackages();
-	}, []);
+  useEffect(() => {
+    loadFeaturedPackages();
+  }, []);
 
-	const loadFeaturedPackages = async () => {
-		try {
-			setLoading(true);
-			console.log('Bookable: Starting to load featured packages...');
-			
-			const activePackages = await packageService.getPackages({ status: 'Active' });
-			console.log('Bookable: Active packages from API:', activePackages);
-			console.log('Bookable: Active packages count:', activePackages.length);
-			
-			const packagesWithImages = activePackages.filter(pkg => 
-				pkg.mainImage || (pkg.images && pkg.images.length > 0)
-			);
-			console.log('Bookable: Active packages with images:', packagesWithImages);
-			
-			const featuredPackages = packagesWithImages.slice(0, 6);
-			console.log('Bookable: Featured packages for display:', featuredPackages);
-			
-			setPackages(featuredPackages);
-		} catch (error) {
-			console.error('Bookable: Error loading featured packages:', error);
-			console.error('Bookable: Error details:', error instanceof Error ? error.message : 'Unknown error');
-		} finally {
-			setLoading(false);
-		}
-	};
+  const loadFeaturedPackages = async () => {
+    try {
+      setLoading(true);
+      const activePackages = await packageService.getPackages({ status: "Active" });
+      const packagesWithImages = activePackages.filter(
+        (pkg) => pkg.mainImage || (pkg.images && pkg.images.length > 0)
+      );
+      setPackages(packagesWithImages.slice(0, 6));
+    } catch (error) {
+      console.error("Error loading packages:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
 
-	const formatPrice = (pkg: Package) => {
-		const symbol = pkg.currency === 'USD' ? 'US$' : 'Rs.';
-		return `${symbol}${pkg.price.toFixed(2)}`;
-	};
+  const formatPrice = (pkg: Package) => {
+    const symbol = pkg.currency === "USD" ? "US$" : "Rs.";
+    return `${symbol}${pkg.price.toFixed(2)}`;
+  };
 
-	const getImageUrl = (imagePath?: string) => {
-		if (imagePath) {
-			return `https://backend.colombodivers.ceylonecreative.online${imagePath}`;
-		}
-		return null;
-	};
+  const getImageUrl = (imagePath?: string) => (imagePath ? `http://localhost:5005${imagePath}` : "");
 
-	const getPackageImage = (pkg: Package) => {
-		
-		if (pkg.mainImage) {
-			return getImageUrl(pkg.mainImage);
-		}
-		if (pkg.images && pkg.images.length > 0) {
-			return getImageUrl(pkg.images[0].url);
-		}
-		return null;
-	};
+  const getPackageImage = (pkg: Package) =>
+    pkg.mainImage ? getImageUrl(pkg.mainImage) : pkg.images && pkg.images.length > 0 ? getImageUrl(pkg.images[0].url) : "";
 
-	const handlePackageClick = (pkg: Package) => {
-		navigate(`/packages/${pkg.slug}`);
-	};
+  const handlePackageClick = (pkg: Package) => navigate(`/packages/${pkg.slug}`);
 
-	const toggleFavorite = (packageId: string, e: React.MouseEvent) => {
-		e.stopPropagation();
-		setFavorites(prev => {
-			const newFavorites = new Set(prev);
-			if (newFavorites.has(packageId)) {
-				newFavorites.delete(packageId);
-			} else {
-				newFavorites.add(packageId);
-			}
-			return newFavorites;
-		});
-	};
+  const displayPackages = packages.filter((pkg) => getPackageImage(pkg));
 
-	const nextSlide = () => {
-		setCurrentSlide((prev) => (prev + 1) % Math.ceil(displayPackages.length / 4));
-	};
+  return (
+	<div className="bg-gray-100">
+    <div className="max-w-7xl mx-auto px-4 py-20">
+      {/* Section Header */}
+      <div className="text-center mb-12">
+        <h2 className="text-5xl font-thin text-gray-900 mb-2">
+          <span className="text-blue-900">Bookable</span> Adventures
+        </h2>
+        <h3 className="text-xl text-gray-700 mb-4">
+          Explore curated experiences across Negombo & Trincomalee
+        </h3>
+        <p className="text-gray-500 max-w-2xl mx-auto">
+          Choose from beginner-friendly adventures to advanced excursions and create unforgettable memories with our exclusive packages.
+        </p>
+      </div>
 
-	const prevSlide = () => {
-		setCurrentSlide((prev) => (prev - 1 + Math.ceil(displayPackages.length / 4)) % Math.ceil(displayPackages.length / 4));
-	};
+      {loading ? (
+        <div className="text-center py-24">
+          <span className="text-gray-500 text-lg">Loading amazing adventures...</span>
+        </div>
+      ) : displayPackages.length === 0 ? (
+        <div className="text-center py-24">
+          <p className="text-gray-600 text-lg mb-2">No packages available</p>
+          <p className="text-gray-400">Please check back later for exciting adventures!</p>
+        </div>
+      ) : (
+        <>
+          {/* Packages Grid */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 mb-8">
+            {displayPackages.map((pkg) => (
+              <div
+                key={pkg._id}
+                onClick={() => handlePackageClick(pkg)}
+                className="bg-white shadow-lg overflow-hidden cursor-pointer transform hover:-translate-y-1 hover:shadow-2xl transition-all"
+              >
+                <div className="relative">
+                  <img
+                    src={getPackageImage(pkg)}
+                    alt={pkg.title}
+                    className="w-full h-48 object-cover"
+                  />
+                  <span className="absolute top-4 left-4 bg-blue-100 text-blue-900 px-3 py-1 rounded-full text-sm font-medium">
+                    {pkg.category}
+                  </span>
+                </div>
 
-	const displayPackages = packages.filter(pkg => getPackageImage(pkg) !== null);
+                <div className="p-6 space-y-3">
+                  <h3 className="text-lg font-semibold text-gray-900">{pkg.title}</h3>
+                  <div className="flex flex-wrap gap-4 text-gray-500 text-sm">
+                    <span>{pkg.duration}</span>
+                    {pkg.maxPeople && <span>Max: {pkg.maxPeople}</span>}
+                  </div>
+                  <div className="flex items-center justify-between mt-4">
+                    <div>
+                      <span className="text-lg font-bold text-gray-900">{formatPrice(pkg)}</span>
+                      <span className="text-gray-400 text-sm ml-1">/ {pkg.pricePerText || "person"}</span>
+                    </div>
+                    <button
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        handlePackageClick(pkg);
+                      }}
+                      className="bg-blue-900 hover:bg-blue-800 text-white px-4 py-2 font-medium transition"
+                    >
+                      Book Now
+                    </button>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
 
-	return (
-		<div style={{ background: "#fff", padding: "40px 20px", maxWidth: "1400px", margin: "0 auto" }}>
-			<div style={{ textAlign: "center", marginBottom: "40px" }}>
-				<h2 style={{ fontWeight: "bold", fontSize: "2.5rem", marginBottom: "8px", color: "#1a1a1a" }}>
-					<span style={{ color: "#07006dff" }}>Bookable</span> Adventures
-				</h2>
-				<p style={{ fontSize: "1.1rem", color: "#666", maxWidth: "600px", margin: "0 auto" }}>
-					Choose from our carefully curated experiences, from beginner-friendly adventures to advanced excursions
-					across Sri Lanka and the Maldives.
-				</p>
-			</div>
-			
-			{loading ? (
-				<div style={{ textAlign: "center", padding: "60px 0" }}>
-					<div style={{ fontSize: "1.2rem", color: "#666" }}>Loading amazing adventures...</div>
-				</div>
-			) : (
-				<div style={{ position: "relative" }}>
-					{/* Navigation arrows */}
-					{displayPackages.length > 4 && (
-						<>
-							<button
-								onClick={prevSlide}
-								style={{
-									position: "absolute",
-									left: "-20px",
-									top: "50%",
-									transform: "translateY(-50%)",
-									background: "#fff",
-									border: "1px solid #ddd",
-									borderRadius: "50%",
-									width: "50px",
-									height: "50px",
-									display: "flex",
-									alignItems: "center",
-									justifyContent: "center",
-									cursor: "pointer",
-									boxShadow: "0 2px 10px rgba(0,0,0,0.1)",
-									zIndex: 10,
-								}}
-							>
-								<FaChevronLeft color="#666" size={16} />
-							</button>
-							<button
-								onClick={nextSlide}
-								style={{
-									position: "absolute",
-									right: "-20px",
-									top: "50%",
-									transform: "translateY(-50%)",
-									background: "#fff",
-									border: "1px solid #ddd",
-									borderRadius: "50%",
-									width: "50px",
-									height: "50px",
-									display: "flex",
-									alignItems: "center",
-									justifyContent: "center",
-									cursor: "pointer",
-									boxShadow: "0 2px 10px rgba(0,0,0,0.1)",
-									zIndex: 10,
-								}}
-							>
-								<FaChevronRight color="#666" size={16} />
-							</button>
-						</>
-					)}
-
-					{/* Cards container */}
-					<div style={{ 
-						display: "grid", 
-						gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))", 
-						gap: "24px",
-						marginBottom: "40px"
-					}}>
-						{displayPackages.slice(currentSlide * 4, (currentSlide + 1) * 4).map((pkg) => {
-							const imageUrl = getPackageImage(pkg);
-							if (!imageUrl) return null;
-							
-							return (
-								<div
-									key={pkg._id}
-									style={{
-										background: "#fff",
-										boxShadow: "0 4px 20px rgba(0,0,0,0.08)",
-										overflow: "hidden",
-										cursor: "pointer",
-										transition: "transform 0.2s ease, box-shadow 0.2s ease",
-										position: "relative",
-									}}
-									onClick={() => handlePackageClick(pkg)}
-									
-								>
-									
-									<div style={{ position: "relative" }}>
-										<img
-											src={imageUrl}
-											alt={pkg.title}
-											style={{
-												width: "100%",
-												height: "200px",
-												objectFit: "cover",
-											}}
-										/>
-										
-									</div>
-
-									{/* Card content */}
-									<div style={{ padding: "20px" }}>
-										<div style={{ marginBottom: "8px" }}>
-											<span style={{ 
-												background: "#e8f4fd", 
-												color: "#080075ff", 
-												padding: "4px 12px", 
-												borderRadius: "20px", 
-												fontSize: "0.85rem",
-												fontWeight: "500"
-											}}>
-												{pkg.category}
-											</span>
-										</div>
-										
-										<h3 style={{ 
-											fontWeight: "600", 
-											fontSize: "1.1rem", 
-											color: "#1a1a1a", 
-											marginBottom: "8px",
-											lineHeight: "1.4"
-										}}>
-											{pkg.title}
-										</h3>
-										
-										<div style={{ 
-											fontSize: "0.9rem", 
-											color: "#666", 
-											marginBottom: "12px",
-											display: "flex",
-											gap: "16px",
-											flexWrap: "wrap"
-										}}>
-											<span>{pkg.duration}</span>
-											{pkg.maxPeople && <span>Max: {pkg.maxPeople}</span>}
-										</div>
-
-										{/* Price and book button */}
-										<div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
-											<div>
-												<span style={{ 
-													fontWeight: "700", 
-													fontSize: "1.2rem", 
-													color: "#1a1a1a" 
-												}}>
-													{formatPrice(pkg)}
-												</span>
-												<span style={{ 
-													color: "#888", 
-													fontSize: "0.85rem", 
-													marginLeft: "4px" 
-												}}>
-													/ {pkg.pricePerText || "person"}
-												</span>
-											</div>
-											<button
-												style={{
-													background: "#00026dff",
-													color: "#fff",
-													border: "none",
-													padding: "8px 16px",
-													fontWeight: "600",
-													cursor: "pointer",
-													fontSize: "0.9rem",
-													transition: "background 0.2s ease",
-												}}
-												onClick={(e) => {
-													e.stopPropagation();
-													handlePackageClick(pkg);
-												}}
-												onMouseEnter={(e) => {
-													e.currentTarget.style.background = "#02006dff";
-												}}
-												onMouseLeave={(e) => {
-													e.currentTarget.style.background = "#00155cff";
-												}}
-											>
-												Book Now
-											</button>
-										</div>
-									</div>
-								</div>
-							);
-						})}
-					</div>
-					
-					{displayPackages.length === 0 && !loading && (
-						<div style={{ textAlign: "center", padding: "60px 0" }}>
-							<div style={{ fontSize: "1.2rem", color: "#666", marginBottom: "16px" }}>
-								No packages available
-							</div>
-							<div style={{ fontSize: "1rem", color: "#888" }}>
-								Please check back later for exciting adventures!
-							</div>
-						</div>
-					)}
-				</div>
-			)}
-			
-			{displayPackages.length > 4 && (
-				<div style={{ display: "flex", justifyContent: "center", alignItems: "center", gap: "8px", marginBottom: "40px" }}>
-					{[...Array(Math.ceil(displayPackages.length / 4))].map((_, i) => (
-						<button
-							key={i}
-							onClick={() => setCurrentSlide(i)}
-							style={{
-								width: "12px",
-								height: "12px",
-								border: "none",
-								borderRadius: "50%",
-								background: i === currentSlide ? "#0c0074ff" : "#e0e0e0",
-								cursor: "pointer",
-								transition: "background 0.2s ease",
-							}}
-						/>
-					))}
-				</div>
-			)}
-			
-			<div style={{ textAlign: "center" }}>
-				<Link to="/packages">
-					<button
-						style={{
-							background: "#1c1a97ff", 
-							color: "#fff", 
-							border: "none",
-							padding: "12px 32px", 
-							fontWeight: "600", 
-							fontSize: "1.1rem", 
-							cursor: "pointer", 
-							transition: "all 0.2s ease",
-						}}
-						onMouseEnter={(e) => {
-							e.currentTarget.style.background = "#00076dff";
-						}}
-						onMouseLeave={(e) => {
-							e.currentTarget.style.background = "#001b74ff";
-						}}
-					>
-						View All Packages
-					</button>
-				</Link>
-			</div>
-		</div>
-	);
+          {/* View All Button */}
+          <div className="text-center">
+            <Link to="/packages">
+              <button className="bg-blue-800 hover:bg-blue-900 text-white px-8 py-3 font-semibold transition">
+                View All Packages
+              </button>
+            </Link>
+          </div>
+        </>
+      )}
+    </div>
+	</div>
+  );
 };
 
 export default Bookable;

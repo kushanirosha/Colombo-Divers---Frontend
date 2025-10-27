@@ -1,14 +1,17 @@
 import React from "react";
 import { motion } from "framer-motion";
 import { FaTag } from "react-icons/fa";
-import Offer1 from "../public/images/Home/learnmore.webp"
+import Offer1 from "../assets/img/Home/beach.png";
+import Offer2 from "../assets/img/Home/beach.png";
+import Offer3 from "../assets/img/Home/beach.png";
+import BgOffer from "../assets/img/Home/offer.webp"; 
 
 const offers = [
   {
     title: "Weekend Dive Adventure",
     description:
       "Enjoy a 2-day diving experience at Colombo’s vibrant coral reefs. Includes gear, instructor, and underwater photography.",
-    image: {Offer1},
+    image: Offer1,
     price: "$299",
     discount: "20% OFF",
     btnText: "Book Now",
@@ -17,7 +20,7 @@ const offers = [
     title: "Couples Sunset Dive",
     description:
       "Dive together into a romantic underwater sunset. Perfect for honeymooners — includes champagne dinner by the beach.",
-    image: "/img/Home/Offers/offer2.webp",
+    image: Offer2,
     price: "$399",
     discount: "Save $100",
     btnText: "Book Now",
@@ -26,7 +29,7 @@ const offers = [
     title: "Discover Scuba Trial",
     description:
       "First-time diver? Experience the thrill of scuba with full guidance and safety — no certification required!",
-    image: "/img/Home/Offers/offer3.webp",
+    image: Offer3,
     price: "$149",
     discount: "Limited Offer",
     btnText: "Book Now",
@@ -35,20 +38,24 @@ const offers = [
 
 const SpecialOffers: React.FC = () => {
   return (
-    <section className="relative py-20 bg-gradient-to-b from-[#1B1C52] to-[#0e0f2e] text-white overflow-hidden">
-      {/* Decorative Element */}
-      {/* <div className="absolute inset-0 bg-[url('/img/patterns/waves.svg')] opacity-5"></div> */}
+    <section
+      className="relative py-20 text-white bg-cover bg-center bg-no-repeat overflow-hidden -z-10 bg-fixed "
+      style={{ backgroundImage: `url(${BgOffer})` }}
+    >
+      {/* Overlay for better contrast */}
+      <div className="absolute inset-0 bg-[#00000080]"></div>
 
       <div className="relative max-w-7xl mx-auto text-center px-6">
         {/* Heading */}
         <motion.h2
-          className="text-4xl md:text-5xl font-bold mb-4"
+          className="text-4xl md:text-5xl mb-4"
           initial={{ opacity: 0, y: 40 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
         >
-         Special <span className="text-cyan-400">Offers & Packages</span>
+          Special <span className="text-cyan-400">Offers & Packages</span>
         </motion.h2>
+
         <motion.p
           className="text-gray-300 max-w-2xl mx-auto mb-12"
           initial={{ opacity: 0 }}

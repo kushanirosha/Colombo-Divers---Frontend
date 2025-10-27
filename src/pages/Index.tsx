@@ -12,15 +12,16 @@ import Footer from "../Layout/Footer";
 import Lastsection from "../components/Lastsection";
 import HeroSection from "../components/HeroSection";
 import SpecialOffers from "../components/SpecialOffers";
+import WhyChooseUs from "../components/WhyChooseUs";
 
 const Index = () => {
 	const [destination, setDestination] = useState("");
 	const [isButtonHovered, setIsButtonHovered] = useState(false);
 
-		const handleSearch = (e: React.FormEvent) => {
+	const handleSearch = (e: React.FormEvent) => {
 		e.preventDefault();
 		if (destination.trim()) {
-			
+
 			console.log("Searching for:", destination);
 			alert(`Searching for: ${destination}`);
 		}
@@ -28,8 +29,8 @@ const Index = () => {
 
 	return (
 		<>
-        {/* Navbar Section */}
-        <Navbar/>
+			{/* Navbar Section */}
+			<Navbar />
 			{/* <div
 				style={{
 					backgroundImage:
@@ -85,36 +86,39 @@ const Index = () => {
 				`}</style>
 			</div> */}
 
-			<HeroSection/>
+			<HeroSection />
 
-            {/* learn more section */}
+			{/* learn more section */}
 			<Learnmore />
 
-			<SpecialOffers/>
+			<SpecialOffers />
 
-            {/* services section */}
-            <Services />
+			{/* services section */}
+			<Services />
 
-            {/* top places section */}
-            <Topplace />
+			{/* bookable adventures section */}
+			<Bookable />
 
-            {/* testimonials section */}
-            <Testimonials />
+			{/* top places section */}
+			<Topplace />
 
-            {/* bookable adventures section */}
-            <Bookable />
+			{/* testimonials section */}
+			<Testimonials />
+
 
 			{/* award section */}
 			<Awardsection />
 
-            {/* contact section */}
-            <Contact />
+			<WhyChooseUs />
+			
+			{/* contact section */}
+			<Contact />
 
-			{/* last section */}	
+			{/* last section */}
 			<Lastsection />
 
-            {/* footer section */}
-            <Footer />
+			{/* footer section */}
+			<Footer />
 		</>
 	);
 };

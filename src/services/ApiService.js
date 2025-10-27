@@ -1,6 +1,6 @@
 import Axios from "axios";
 
-const API_BASE_URL = "https://backend.colombodivers.ceylonecreative.online/api/v1";
+const API_BASE_URL = "http://localhost:5005/api/v1";
 
 export default class ApiService {
   static getToken() {
@@ -99,6 +99,18 @@ export default class ApiService {
       return response.data;
     } catch (error) {
       throw error.response?.data || { message: "Failed to update review" };
+    }
+  }
+
+  static async getAllReviews() {
+    try {
+      const response = await Axios.get(`${API_BASE_URL}/reviews`, {
+        headers: this.getHeader(),
+      });
+      // Some backends return { reviews: [...] } instead of a raw array
+      return response.data.reviews || response.data;
+    } catch (error) {
+      throw error.response?.data || { message: "Failed to fetch reviews" };
     }
   }
 

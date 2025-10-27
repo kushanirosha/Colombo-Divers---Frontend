@@ -1,115 +1,104 @@
-import React, { useState } from "react";
+import React from "react";
+import T1 from "../assets/img/Home/Top/1.webp";
+import T2 from "../assets/img/Home/Top/2.webp";
+import T3 from "../assets/img/Home/Top/3.webp";
+import T4 from "../assets/img/Home/Top/4.webp";
+import T5 from "../assets/img/Home/Top/5.webp";
+import T6 from "../assets/img/Home/Top/6.webp";
 
-const destinations = [
-	{
-		name: "Maafushi",
-		img: "https://images.unsplash.com/photo-1602002418816-5c0aeef426aa?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NTJ8fG1hbGRpdmVzfGVufDB8fDB8fHww",
-	},
-	{
-		name: "Guraidhoo",
-		img: "https://images.unsplash.com/photo-1609601546193-f558f1ebb385?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-	},
-	{
-		name: "Ella",
-		img: "https://images.unsplash.com/photo-1566296314736-6eaac1ca0cb9?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8ZWxsYXxlbnwwfHwwfHx8MA%3D%3D",
-	},
-	{
-		name: "Maldives",
-		img: "https://images.unsplash.com/photo-1571497569639-7bd0fcd36c64?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NjJ8fG1hbGRpdmVzfGVufDB8fDB8fHww",
-	},
-	{
-		name: "Mirissa",
-		img: "https://images.unsplash.com/photo-1580910527739-556eb89f9d65?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8bWlyaXNzYXxlbnwwfHwwfHx8MA%3D%3D",
-	},
-	{
-		name: "Manigala",
-		img: "https://images.unsplash.com/photo-1682308999971-208126ba75ec?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Njh8fG1hbGRpdmVzfGVufDB8fDB8fHww",
-	},
+const diveLocations = [
+  {
+    name: "Maha Gala",
+    depth: "14 meters",
+    img: T1,
+    description:
+      "A stunning coral-covered reef teeming with colorful marine life, perfect for intermediate divers.",
+  },
+  {
+    name: "Uravi Gala",
+    depth: "16 meters",
+    img: T2,
+    description:
+      "Known for its clear visibility and vibrant schools of fish, this site offers a peaceful underwater escape.",
+  },
+  {
+    name: "Godin Gala",
+    depth: "13 meters",
+    img: T3,
+    description:
+      "A shallow reef ideal for beginners, featuring small caves and soft corals with plenty of sea turtles.",
+  },
+  {
+    name: "Raja Gala",
+    depth: "15 meters",
+    img: T4,
+    description:
+      "A breathtaking dive site with rocky formations and colorful coral gardens, popular among photographers.",
+  },
+  {
+    name: "Dakune Gala",
+    depth: "15 meters",
+    img: T5,
+    description:
+      "Famous for its diverse marine biodiversity, from lionfish to moray eels hiding among coral crevices.",
+  },
+  {
+    name: "Goda Maha Gala",
+    depth: "15 meters",
+    img: T6,
+    description:
+      "A majestic underwater cliff offering a thrilling dive experience with large reef fish and sea fans.",
+  },
 ];
 
 const Topplace = () => {
-	const [activeIdx, setActiveIdx] = useState(-1);
-	const [hoverIdx, setHoverIdx] = useState(-1);
-	return (
-		<div style={{ background: "#fff", padding: "48px 0" }}>
-			<div style={{ textAlign: "center", marginBottom: "18px" }}>
-				<h2 style={{ fontWeight: "bold", fontSize: "2rem", marginBottom: "4px" }}>
-					<span style={{ color: "#00076bff" }}>Top Diving</span>
-					<span style={{ color: "#00076bff", marginLeft: "6px" }}>Destinations</span>
-				</h2>
-				<p style={{ color: "#555", fontSize: "1rem", marginTop: "8px", marginBottom: "32px" }}>
-					Book a trip to one of the world's top diving destinations in Sri Lanka
-				</p>
-			</div>
-			<div
-				style={{
-					display: "grid",
-					gridTemplateColumns: "repeat(3, minmax(260px, 1fr))",
-					gap: "32px",
-					justifyContent: "center",
-					maxWidth: "1200px",
-					margin: "0 auto",
-				}}
-			>
-					{destinations.map((dest, idx) => {
-						const isActive = activeIdx === idx;
-						const isHover = hoverIdx === idx;
-						return (
-							<div
-								key={dest.name}
-								onMouseEnter={() => setHoverIdx(idx)}
-								onMouseLeave={() => setHoverIdx(-1)}
-								onClick={() => setActiveIdx(idx)}
-								style={{
-									position: "relative",
-									overflow: "hidden",
-									transition: "box-shadow 0.2s",
-									minHeight: "230px",
-									height: "80px",
-									display: "flex",
-									alignItems: "flex-end",
-									cursor: "pointer",
-								}}
-							>
-								<img
-									src={dest.img}
-									alt={dest.name}
-									style={{
-										width: "100%",
-										height: "100%",
-										objectFit: "cover",
-										display: "block",
-										filter: isActive || isHover ? "brightness(1)" : "brightness(0.85)",
-										transition: "filter 0.2s",
-									}}
-								/>
-								<div
-									style={{
-										position: "absolute",
-										left: 0,
-										right: 0,
-										bottom: 0,
-										height: "48px",
-										color: "#ffffffff",
-										fontWeight: "bold",
-										fontSize: "1.08rem",
-										display: "flex",
-										alignItems: "center",
-										paddingLeft: "18px",
-										letterSpacing: "0.5px",
-										borderBottomLeftRadius: "12px",
-										borderBottomRightRadius: "12px",
-										transition: "background 0.2s, color 0.2s",
-									}}
-								>
-									{dest.name}
-								</div>
-							</div>
-						);
-					})}
-			</div>
-		</div>
-	);
+  const topSix = diveLocations.slice(0, 6);
+
+  return (
+    <section className="bg-white py-20 mb-20">
+      <div className="max-w-7xl mx-auto px-6 text-center">
+        <h2 className="text-4xl mb-3 text-[#00076b]">
+          Top Diving Destinations
+        </h2>
+        <p className="text-gray-600 mb-12">
+          Book a trip to one of Sri Lanka’s most breathtaking dive sites.
+        </p>
+
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
+          {topSix.map((loc, idx) => (
+            <div
+              key={idx}
+              className="relative group overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 cursor-pointer"
+            >
+              {/* Image */}
+              <img
+                src={loc.img}
+                alt={loc.name}
+                className="w-full h-64 object-cover transform group-hover:scale-110 transition-transform duration-500 ease-out"
+              />
+
+              {/* Always visible name + depth */}
+              <div className="absolute bottom-0 left-0 right-0 p-6 bg-gradient-to-t from-black/60 via-black/10 to-transparent text-left">
+                <h3 className="text-white text-2xl font-semibold drop-shadow-lg">
+                  {loc.name}
+                </h3>
+                <p className="text-gray-200 text-sm mt-1 drop-shadow-md">
+                  {loc.depth}
+                </p>
+              </div>
+
+              {/* Hover description */}
+              <div className="absolute inset-0 bg-black/30 opacity-0 group-hover:opacity-100 transition-all duration-300 flex items-center justify-center p-6">
+                <p className="text-white text-sm leading-relaxed text-center max-w-xs">
+                  {loc.description}
+                </p>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
 };
 
 export default Topplace;

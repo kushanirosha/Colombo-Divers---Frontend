@@ -3,7 +3,6 @@ import Navbar from "../Layout/Navbar";
 import Footer from "../Layout/Footer";
 import { useNavigate, useParams } from "react-router-dom";
 import { packageService, Package } from "../services/packageService";
-import "../App.css";
 
 const PackageDetails = () => {
   const navigate = useNavigate();
@@ -56,7 +55,7 @@ const PackageDetails = () => {
 
   const getImageUrl = (imagePath?: string) => {
     if (imagePath) {
-      return `https://backend.colombodivers.ceylonecreative.online${imagePath}`;
+      return `http://localhost:5005${imagePath}`;
     }
     // Return null if no image path - let components handle no image case
     return null;

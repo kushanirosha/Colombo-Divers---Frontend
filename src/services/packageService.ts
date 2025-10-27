@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const API_BASE_URL = 'https://backend.colombodivers.ceylonecreative.online/api/v1';
+const API_BASE_URL = 'http://localhost:5005/api/v1';
 
 export interface Package {
   _id: string;

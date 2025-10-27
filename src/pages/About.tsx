@@ -21,22 +21,19 @@ function About() {
   const slides = useMemo(
     () => [
       {
-        title: "Scuba Diving",
-        desc: "Certified PADI courses with expert instructors.",
-        img:
-          "https://images.unsplash.com/photo-1605948508764-d43f2586bb0f?q=80&w=1936&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+        title: "Wreck Diving",
+        desc: "Explore fascinating shipwrecks beneath Colombo’s waters, home to vibrant marine life.",
+        img: "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?q=80&w=1974&auto=format&fit=crop",
       },
       {
-        title: "River Rafting",
-        desc: "Thrilling adventures guided by seasoned divemasters.",
-        img:
-          "https://plus.unsplash.com/premium_photo-1661889574067-4f56b2d5c702?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+        title: "Reef Diving",
+        desc: "Discover colorful coral gardens and schools of fish in crystal-clear waters.",
+        img: "https://images.unsplash.com/photo-1517832207067-4db24a2ae47c?q=80&w=1974&auto=format&fit=crop",
       },
       {
-        title: "Trekking & Tours",
-        desc: "Discover Sri Lanka & Maldives beyond the shoreline.",
-        img:
-          "https://images.unsplash.com/photo-1553512313-64af79fdfe9c?q=80&w=1964&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+        title: "PADI Training",
+        desc: "Get certified with our expert instructors — from beginner to advanced diving levels.",
+        img: "https://images.unsplash.com/photo-1607962837359-4b8e8d8b18b8?q=80&w=1974&auto=format&fit=crop",
       },
     ],
     []
@@ -53,35 +50,52 @@ function About() {
     return () => clearInterval(id);
   }, [paused, slides.length]);
 
-  const journeyPanels = useMemo(
-    () => [
-      {
-        title: "Meaningful Moments Come From Real Connections.",
-        img:
-          "https://images.unsplash.com/photo-1615039666131-964929ad0f1e?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-        grayscale: true,
+  const team = [
+    {
+      name: "Mr. Sherik Fernando",
+      role: "Managing Director",
+      img: "https://images.unsplash.com/photo-1595152772835-219674b2a8a6?q=80&w=1000&auto=format&fit=crop",
+      socials: {
+        facebook: "#",
+        instagram: "#",
+        whatsapp: "#",
+        email: "mailto:info@colombodivers.lk",
       },
-      {
-        title: "We Believe True Indulgence Is Personal.",
-        img:
-          "https://images.unsplash.com/photo-1557750505-e7b4d1c40410?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-        grayscale: false,
+    },
+    {
+      name: "Mr. Vincent Fernando",
+      role: "Founder",
+      img: "https://images.unsplash.com/photo-1607746882042-944635dfe10e?q=80&w=1000&auto=format&fit=crop",
+      socials: {
+        facebook: "#",
+        instagram: "#",
+        whatsapp: "#",
+        email: "mailto:info@colombodivers.lk",
       },
-      {
-        title: "Rebalance In Unforgettable Settings.",
-        img:
-          "https://images.unsplash.com/photo-1618288197176-1641dce9b108?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-        grayscale: true,
+    },
+    {
+      name: "Jane Doe",
+      role: "Dive Instructor",
+      img: "https://images.unsplash.com/photo-1607746882042-944635dfe10e?q=80&w=1000&auto=format&fit=crop",
+      socials: {
+        facebook: "#",
+        instagram: "#",
+        whatsapp: "#",
+        email: "mailto:info@colombodivers.lk",
       },
-      {
-        title: "We Don’t Just Serve - We Share Stories.",
-        img:
-          "https://images.unsplash.com/photo-1667537506981-4c67c8b82f85?q=80&w=1964&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-        grayscale: true,
+    },
+    {
+      name: "John Smith",
+      role: "PADI Course Director",
+      img: "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?q=80&w=1000&auto=format&fit=crop",
+      socials: {
+        facebook: "#",
+        instagram: "#",
+        whatsapp: "#",
+        email: "mailto:info@colombodivers.lk",
       },
-    ],
-    []
-  );
+    },
+  ];
 
   const [jIndex, setJIndex] = useState(0);
   const [jPaused, setJPaused] = useState(false);
@@ -89,75 +103,74 @@ function About() {
   return (
     <Layout>
       {/* Header */}
-      <section className="mx-auto max-w-7xl px-6 pt-12 md:pt-20">
+      <section className="mx-auto max-w-7xl px-6 pt-12 md:pt-32">
         <div className="flex flex-col md:flex-row items-start md:items-center gap-10">
+          {/* Left Text Section */}
           <div className="md:max-w-xl">
-            <h1 className="text-4xl md:text-5xl font-bold tracking-tight text-gray-900">
-              Where Adventure Meets Local Soul
+            <h1 className="text-4xl md:text-5xl text-blue-600 tracking-tight">
+              Dive into the Heart of Sri Lanka
             </h1>
-            <p className="mt-5 text-gray-600 leading-relaxed">
-              We’re passionate about crafting unforgettable experiences in the
-              breathtaking destinations of Sri Lanka and Maldives. From scuba
-              diving and river rafting to cliff-climbing and trekking—our
-              certified team makes nature the highlight of your journey.
+            <p className="mt-5 text-gray-700 leading-relaxed text-justify">
+              Colombo Divers is the only recreational dive center offering diving
+              and dive training in Colombo. In addition, Colombo Divers organizes
+              both local and international dive trips, and provides diving
+              assistance around Sri Lanka. Owned and staffed by divers with a
+              passion for diving and a love for Sri Lanka, Colombo Divers offers a
+              range of internationally recognized PADI training courses carried
+              out by certified instructors.
             </p>
-            <div className="mt-6 flex flex-wrap gap-3">
-              <a
-                href="/contact"
-                className="inline-flex items-center justify-center bg-[#01004b] px-6 py-3 text-white shadow-sm hover:bg-[#0c0b7a] focus:outline-none"
-              >
-                Contact Us
-              </a>
-              <a
-                href="/packages"
-                className="inline-flex items-center justify-center border-gray-300 px-6 py-3 text-gray-800 hover:bg-gray-50"
-              >
-                Learn More
-              </a>
-            </div>
+            <p className="mt-4 text-gray-700 leading-relaxed text-justify">
+              All dive trips are led by dive masters with many years of experience
+              and in-depth knowledge of local dive sites. Our team has expertise
+              in wreck exploration, technical diving, underwater photography, and
+              marine research — with extensive experience diving around Sri Lanka
+              and beyond. Experience the hidden beauty of Colombo, from shipwrecks
+              to reefs teeming with marine life!
+            </p>
           </div>
 
+          {/* Right Auto-Slider */}
           <div className="relative w-full md:flex-1">
             <div
-              className=" bg-gray-100 p-0 shadow-inner overflow-hidden"
+              className="bg-gray-100 shadow-inner overflow-hidden"
               onMouseEnter={() => setPaused(true)}
               onMouseLeave={() => setPaused(false)}
             >
-              <div className="relative h-[320px]">
+              <div className="relative h-[320px] md:h-[400px]">
                 {slides.map((card, i) => (
                   <div
                     key={i}
-                    className={`absolute inset-0 transition-opacity duration-700 ${
-                      index === i ? "opacity-100" : "opacity-0"
-                    }`}
+                    className={`absolute inset-0 transition-opacity duration-700 ${index === i ? "opacity-100" : "opacity-0"
+                      }`}
                     aria-hidden={index !== i}
                   >
-                    <div className="grid h-full grid-cols-1 md:grid-cols-2">
-                      <img
-                        src={card.img}
-                        alt={card.title}
-                        className="h-40 w-full object-cover md:h-full"
-                      />
-                      <div className="flex flex-col justify-center bg-white p-6">
-                        <p className="text-sm text-gray-500">Experience</p>
-                        <h3 className="mt-1 font-semibold text-gray-900">
-                          {card.title}
-                        </h3>
-                        <p className="mt-1 text-sm text-gray-600">{card.desc}</p>
-                      </div>
+                    <img
+                      src={card.img}
+                      alt={card.title}
+                      className="h-full w-full object-cover"
+                    />
+                    {/* Text Overlay */}
+                    <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/70 to-transparent p-6">
+                      <p className="text-sm text-gray-200">Experience</p>
+                      <h3 className="mt-1 text-xl md:text-2xl font-semibold text-white">
+                        {card.title}
+                      </h3>
+                      <p className="mt-1 text-sm md:text-base text-gray-200">
+                        {card.desc}
+                      </p>
                     </div>
                   </div>
                 ))}
 
+                {/* Pagination Dots */}
                 <div className="absolute bottom-3 left-0 right-0 flex justify-center gap-2">
                   {slides.map((_, i) => (
                     <button
                       key={i}
                       aria-label={`Go to slide ${i + 1}`}
                       onClick={() => setIndex(i)}
-                      className={`h-2 w-2 rounded-full ${
-                        index === i ? "bg-[#01004b]" : "bg-gray-300"
-                      }`}
+                      className={`h-2 w-2 rounded-full ${index === i ? "bg-[#01004b]" : "bg-gray-300"
+                        }`}
                     />
                   ))}
                 </div>
@@ -173,37 +186,32 @@ function About() {
             {[
               {
                 title: "Certified PADI Courses",
-                desc:
-                  "Training delivered by experienced, certified instructors.",
+                desc: "Learn diving with internationally recognized PADI training, led by certified instructors.",
                 icon: <FaStar className="text-[#01004b]" size={28} />,
               },
               {
-                title: "Divemaster-Led Trips",
-                desc:
-                  "Guided by experts with deep knowledge of local marine life.",
+                title: "Guided Dive Trips",
+                desc: "Experience the best dive sites around Sri Lanka with our experienced divemasters.",
                 icon: <FaUserFriends className="text-[#01004b]" size={28} />,
               },
               {
-                title: "Sri Lanka & Maldives",
-                desc: "Two islands, endless oceans and lush trails to explore.",
+                title: "Wreck & Reef Exploration",
+                desc: "Discover shipwrecks, coral reefs, and underwater life teeming with biodiversity.",
                 icon: <FaGlobe className="text-[#01004b]" size={28} />,
               },
               {
-                title: "Adventure Activities",
-                desc:
-                  "Scuba, rafting, cliff-climbing, tours and trekking in nature.",
+                title: "Specialized Diving Activities",
+                desc: "Technical diving, underwater photography, and marine research with expert guidance.",
                 icon: <FaLeaf className="text-[#01004b]" size={28} />,
               },
             ].map((item, idx) => (
               <div
                 key={idx}
-                className="bg-white p-6 shadow-lg"
+                className="bg-white p-6 shadow-lg transition-transform duration-300 hover:-translate-y-2 hover:shadow-2xl"
               >
                 <div className="flex items-center gap-3">
                   {item.icon}
-                  <h3 className="font-semibold text-gray-900">
-                    {item.title}
-                  </h3>
+                  <h3 className="font-semibold text-gray-900">{item.title}</h3>
                 </div>
                 <p className="mt-3 text-sm text-gray-600">{item.desc}</p>
               </div>
@@ -267,29 +275,59 @@ function About() {
           </div>
         </section>
 
-        <section className="pb-10">
-          <h2 className="text-3xl font-bold text-[#01004b]">Our Journey Through Time</h2>
-          <div className="mt-6 overflow-hidden shadow-lg">
-            <div className="grid grid-cols-1 md:grid-cols-4 md:divide-x md:divide-white/20">
-              {journeyPanels.map((p, i) => (
-                <div key={i} className="group relative h-[260px] md:h-[420px]">
-                  <img
-                    src={p.img}
-                    alt={p.title}
-                    className="absolute inset-0 h-full w-full object-cover transition duration-500 filter grayscale group-hover:filter-none group-hover:scale-[1.01]"
-                  />
-                  <div className="absolute inset-0 transition-colors duration-300 bg-black/20 group-hover:bg-black/10" />
-                  <div className="absolute bottom-4 left-4 right-4 md:left-6 md:right-6">
-                    <div className="border border-white/40 bg-white/20 px-4 py-3 text-white backdrop-blur-md shadow-[0_2px_12px_rgba(0,0,0,0.2)]">
-                      <h3 className="text-sm md:text-base font-semibold leading-snug whitespace-pre-line">
-                        {p.title}
-                      </h3>
-                      
-                    </div>
+        {/* Our History Section */}
+        <section className="mx-auto max-w-6xl px-6 py-16 border-t border-gray-200 mt-12">
+          <h2 className="text-3xl text-[#01004b] text-center">
+            Our History
+          </h2>
+          <p className="mt-6 text-gray-700 leading-relaxed text-justify">
+            Vincent Fernando, who took the first step for our establishment,
+            started diving activities in Katunariya area for his business in 1988,
+            and in 2009 he started the professional diving center "Colombo Divers"
+            in Dehiwala. As a family run business, "Colombo Divers" quickly gained
+            a high reputation by captivating customers with their unique sea
+            explorations and set up new centers in Negombo and Trincomalee as a
+            wider business. Currently, Mr. Vincent's son, Mr. Sherik Fernando,
+            continues "Colombo Divers" as a successful business, and Colombo
+            Divers will continue to be with you in the future with a number of
+            high quality diving courses that offer certifications recognized
+            worldwide.
+          </p>
+        </section>
+
+        {/* Meet Our Team Section */}
+        <section className="mx-auto max-w-7xl py-16 border-t border-gray-200">
+          <h2 className="text-3xl text-[#01004b] text-center mb-10">
+            Meet Our Team
+          </h2>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            {team.map((member, i) => (
+              <div key={i} className="bg-white border border-gray-200 shadow-sm">
+                <img
+                  src={member.img}
+                  alt={member.name}
+                  className="w-full h-64 object-cover"
+                />
+                <div className="p-5 text-center">
+                  <h3 className="text-lg text-gray-900">{member.name}</h3>
+                  <p className="text-sm text-gray-600">{member.role}</p>
+                  <div className="mt-4 flex justify-center gap-4 text-gray-700">
+                    <a href={member.socials.facebook} target="_blank" rel="noreferrer">
+                      <FaFacebookF />
+                    </a>
+                    <a href={member.socials.instagram} target="_blank" rel="noreferrer">
+                      <FaInstagram />
+                    </a>
+                    <a href={member.socials.whatsapp} target="_blank" rel="noreferrer">
+                      <FaWhatsapp />
+                    </a>
+                    <a href={member.socials.email}>
+                      <FaEnvelope />
+                    </a>
                   </div>
                 </div>
-              ))}
-            </div>
+              </div>
+            ))}
           </div>
         </section>
 
@@ -398,7 +436,7 @@ function About() {
                   >
                     Contact Us
                   </a>
-              
+
                 </div>
               </div>
             </div>
@@ -465,10 +503,10 @@ function About() {
               <h3 className="text-lg font-semibold">Email us</h3>
               <p className="mt-1 text-gray-600">
                 <a
-                  href="mailto:contact@paradisepeak.com"
+                  href="mailto:info@colombodivers.lk"
                   className="text-[#003161]"
                 >
-                  hello@paradisepeak.com
+                  info@colombodivers.lk
                 </a>
               </p>
             </div>

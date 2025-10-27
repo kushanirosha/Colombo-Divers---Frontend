@@ -36,7 +36,7 @@ function Navbar() {
       >
         <div className="max-w-7xl mx-auto flex items-center justify-between h-[70px]">
           {/* Left: Company Name */}
-          <div className="text-2xl font-bold text-[#0D1164]">Colombo Divers</div>
+          <div className="text-2xl text-[#0D1164]">Colombo Divers</div>
 
           {/* Center: Navigation Links */}
           <ul className="flex items-center gap-10 text-base font-medium text-gray-700">

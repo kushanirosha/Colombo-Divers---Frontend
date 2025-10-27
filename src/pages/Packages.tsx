@@ -226,7 +226,7 @@ const Packages = () => {
 											onClick={() => handlePackageClick(pkg)}
 										>
 											<img 
-												src={pkg.mainImage ? `https://backend.colombodivers.ceylonecreative.online${pkg.mainImage}` : "https://theportuguesetraveler.com/wp-content/uploads/2024/11/nine-arches-bridge-train-sri-lanka-53.jpg.webp"} 
+												src={pkg.mainImage ? `http://localhost:5005${pkg.mainImage}` : "https://theportuguesetraveler.com/wp-content/uploads/2024/11/nine-arches-bridge-train-sri-lanka-53.jpg.webp"} 
 												alt={pkg.title} 
 												style={{ width: "100%", height: 160, objectFit: "cover" }} 
 											/>
@@ -328,7 +328,7 @@ const Packages = () => {
 											onClick={() => handlePackageClick(pkg)}
 										>
 											<img 
-												src={pkg.mainImage ? `https://backend.colombodivers.ceylonecreative.online${pkg.mainImage}` : "https://digital.ihg.com/is/image/ihg/vignette-collection-noonu-atoll-9970118335-2x1"} 
+												src={pkg.mainImage ? `http://localhost:5005${pkg.mainImage}` : "https://digital.ihg.com/is/image/ihg/vignette-collection-noonu-atoll-9970118335-2x1"} 
 												alt={pkg.title} 
 												style={{ width: "100%", height: 160, objectFit: "cover" }} 
 											/>
@@ -377,7 +377,7 @@ const Packages = () => {
 											onClick={() => handlePackageClick(pkg)}
 										>
 											<img 
-												src={pkg.mainImage ? `https://backend.colombodivers.ceylonecreative.online${pkg.mainImage}` : "https://digital.ihg.com/is/image/ihg/vignette-collection-noonu-atoll-9970118335-2x1"} 
+												src={pkg.mainImage ? `http://localhost:5005${pkg.mainImage}` : "https://digital.ihg.com/is/image/ihg/vignette-collection-noonu-atoll-9970118335-2x1"} 
 												alt={pkg.title} 
 												style={{ width: "100%", height: 160, objectFit: "cover" }} 
 											/>

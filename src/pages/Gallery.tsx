@@ -1,23 +1,18 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useMemo, useCallback } from "react";
 import Navbar from "../Layout/Navbar";
 import Footer from "../Layout/Footer";
-import { FaEye } from "react-icons/fa";
 import ApiService from "../services/ApiService";
 
 const Gallery = () => {
   const [galleryItems, setGalleryItems] = useState<any[]>([]);
   const [activeTab, setActiveTab] = useState("all");
-  const [selectedImage, setSelectedImage] = useState<string | null>(null);
-  const [hoveredItem, setHoveredItem] = useState<number | null>(null);
+  const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
 
-  // fetch gallery from API
   useEffect(() => {
     const fetchGallery = async () => {
       try {
         const data = await ApiService.getGallery();
-        if (data && data.data) {
-          setGalleryItems(data.data);
-        }
+        if (data && data.data) setGalleryItems(data.data);
       } catch (err) {
         console.error("Failed to load gallery:", err);
       }
@@ -25,7 +20,7 @@ const Gallery = () => {
     fetchGallery();
   }, []);
 
-  // filter by tab
+  // Filter by active tab
   const filteredItems = galleryItems.filter((item) => {
     if (activeTab === "all") return true;
     return (
@@ -36,43 +31,67 @@ const Gallery = () => {
     );
   });
 
+  // Keyboard navigation for fullscreen
+  const handleKey = useCallback(
+    (e: KeyboardEvent) => {
+      if (selectedIndex === null) return;
+      if (e.key === "ArrowRight")
+        setSelectedIndex((prev) => (prev! + 1) % filteredItems.length);
+      else if (e.key === "ArrowLeft")
+        setSelectedIndex(
+          (prev) => (prev! - 1 + filteredItems.length) % filteredItems.length
+        );
+      else if (e.key === "Escape") setSelectedIndex(null);
+    },
+    [selectedIndex, filteredItems.length]
+  );
+
+  useEffect(() => {
+    window.addEventListener("keydown", handleKey);
+    return () => window.removeEventListener("keydown", handleKey);
+  }, [handleKey]);
+
+  const journeyPanels = useMemo(
+    () => [
+      {
+        title: "Meaningful Moments Come From Real Connections.",
+        img: "https://images.unsplash.com/photo-1615039666131-964929ad0f1e?q=80&w=1974&auto=format&fit=crop",
+      },
+      {
+        title: "We Believe True Indulgence Is Personal.",
+        img: "https://images.unsplash.com/photo-1557750505-e7b4d1c40410?q=80&w=1974&auto=format&fit=crop",
+      },
+      {
+        title: "Rebalance In Unforgettable Settings.",
+        img: "https://images.unsplash.com/photo-1618288197176-1641dce9b108?q=80&w=1974&auto=format&fit=crop",
+      },
+      {
+        title: "We Don’t Just Serve - We Share Stories.",
+        img: "https://images.unsplash.com/photo-1667537506981-4c67c8b82f85?q=80&w=1964&auto=format&fit=crop",
+      },
+    ],
+    []
+  );
+
   return (
     <>
       <Navbar />
-      <div
-        style={{
-          maxWidth: 1200,
-          margin: "0 auto",
-          padding: "130px 0",
-          textAlign: "center",
-        }}
-      >
-        <h1
-          style={{
-            fontFamily: "sans-serif",
-            color: "#01004bff",
-            fontSize: 48,
-            marginBottom: 20,
-          }}
-        >
+
+      <div className="max-w-7xl mx-auto px-6 py-28 text-center">
+        <h1 className="text-4xl font-bold text-[#01004b] mb-10">
           Explore Paradise in Pictures
         </h1>
 
         {/* Tabs */}
-        <div
-          style={{ display: "flex", justifyContent: "center", marginBottom: 32 }}
-        >
+        <div className="flex justify-center gap-3 mb-10">
           {["all", "sri-lanka", "maldives"].map((tab) => (
             <button
               key={tab}
-              style={{
-                background: activeTab === tab ? "#01004bff" : "#d9e2ff",
-                color: activeTab === tab ? "#fff" : "#01004bff",
-                border: "none",
-                padding: "10px 32px",
-                fontWeight: "bold",
-                cursor: "pointer",
-              }}
+              className={`px-8 py-2 font-semibold transition-all duration-300 ${
+                activeTab === tab
+                  ? "bg-[#01004b] text-white"
+                  : "bg-[#d9e2ff] text-[#01004b]"
+              }`}
               onClick={() => setActiveTab(tab)}
             >
               {tab === "all"
@@ -85,100 +104,27 @@ const Gallery = () => {
         </div>
 
         {/* Gallery Grid */}
-        <div
-          style={{
-            display: "grid",
-            gridTemplateColumns: "repeat(3, 1fr)",
-            gap: 24,
-            justifyContent: "center",
-          }}
-        >
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
           {filteredItems.map((item, idx) => {
             const imgSrc = item.image?.startsWith("http")
               ? item.image
-              : `https://backend.colombodivers.ceylonecreative.online${item.image}`;
-
+              : `http://localhost:5005${item.image}`;
             return (
               <div
                 key={idx}
-                style={{
-                  background: "#fff",
-                  border: "3px solid #e0e0e0",
-                  display: "flex",
-                  flexDirection: "column",
-                  position: "relative",
-                  cursor: "pointer",
-                  transition: "transform 0.3s ease",
-                }}
-                onMouseEnter={() => setHoveredItem(idx)}
-                onMouseLeave={() => setHoveredItem(null)}
-                onClick={() => setSelectedImage(imgSrc)}
+                className="relative group overflow-hidden border border-gray-200 cursor-pointer"
+                onClick={() => setSelectedIndex(idx)}
               >
-                <div style={{ position: "relative", overflow: "hidden" }}>
-                  <img
-                    src={imgSrc}
-                    alt={item.title}
-                    style={{
-                      width: "100%",
-                      height: 160,
-                      objectFit: "cover",
-                      borderBottom: "3px solid #e0e0e0",
-                      transition: "transform 0.3s ease",
-                      transform:
-                        hoveredItem === idx ? "scale(1.05)" : "scale(1)",
-                    }}
-                  />
-
-                  {/* Eye icon overlay */}
-                  <div
-                    style={{
-                      position: "absolute",
-                      top: 0,
-                      left: 0,
-                      width: "100%",
-                      height: "100%",
-                      background:
-                        hoveredItem === idx
-                          ? "rgba(1, 0, 75, 0.7)"
-                          : "transparent",
-                      display: "flex",
-                      alignItems: "center",
-                      justifyContent: "center",
-                      opacity: hoveredItem === idx ? 1 : 0,
-                      transition: "all 0.3s ease",
-                      pointerEvents: "none",
-                    }}
-                  >
-                    <div
-                      style={{
-                        background: "white",
-                        padding: "12px",
-                        display: "flex",
-                        alignItems: "center",
-                        justifyContent: "center",
-                        boxShadow: "0 4px 8px rgba(0,0,0,0.3)",
-                      }}
-                    >
-                      <FaEye color="#01004bff" size={24} />
-                    </div>
-                  </div>
-                </div>
-
-                <div style={{ padding: 16 }}>
-                  <h3
-                    style={{
-                      margin: "0 0 8px",
-                      fontWeight: "bold",
-                      color: "#333",
-                      fontSize: 18,
-                    }}
-                  >
-                    {item.title}
-                  </h3>
+                <img
+                  src={imgSrc}
+                  alt={item.title}
+                  className="w-full h-64 object-cover transition-transform duration-500 group-hover:scale-110"
+                />
+                <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition duration-500" />
+                <div className="absolute bottom-4 left-4 text-left text-white opacity-0 group-hover:opacity-100 transition duration-500">
+                  <h3 className="text-lg font-semibold">{item.title}</h3>
                   {item.location && (
-                    <p style={{ margin: 0, color: "#666" }}>
-                      Location: {item.location}
-                    </p>
+                    <p className="text-sm">{item.location}</p>
                   )}
                 </div>
               </div>
@@ -187,35 +133,75 @@ const Gallery = () => {
         </div>
       </div>
 
-      {/* Modal for enlarged image */}
-      {selectedImage && (
+      {/* Fullscreen Modal */}
+      {selectedIndex !== null && (
         <div
-          onClick={() => setSelectedImage(null)}
-          style={{
-            position: "fixed",
-            top: 0,
-            left: 0,
-            width: "100vw",
-            height: "100vh",
-            background: "rgba(0,0,0,0.8)",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            zIndex: 1000,
-            cursor: "pointer",
-          }}
+          className="fixed inset-0 bg-black/90 flex flex-col items-center justify-center z-50"
+          onClick={() => setSelectedIndex(null)}
         >
           <img
-            src={selectedImage}
-            alt="enlarged"
-            style={{
-              maxWidth: "90%",
-              maxHeight: "90%",
-              border: "5px solid white",
-            }}
+            src={
+              filteredItems[selectedIndex].image?.startsWith("http")
+                ? filteredItems[selectedIndex].image
+                : `http://localhost:5005${filteredItems[selectedIndex].image}`
+            }
+            alt="fullscreen"
+            className="max-h-[80vh] max-w-[90vw] object-contain mb-4 border-4 border-white"
           />
+          {/* Thumbnails */}
+          <div
+            className="flex overflow-x-auto gap-2 px-4 pb-4 w-full max-w-5xl"
+            onClick={(e) => e.stopPropagation()}
+          >
+            {filteredItems.map((item, i) => (
+              <img
+                key={i}
+                src={
+                  item.image?.startsWith("http")
+                    ? item.image
+                    : `http://localhost:5005${item.image}`
+                }
+                alt={item.title}
+                className={`w-24 h-16 object-cover cursor-pointer border-2 ${
+                  selectedIndex === i
+                    ? "border-[#01004b]"
+                    : "border-transparent"
+                }`}
+                onClick={() => setSelectedIndex(i)}
+              />
+            ))}
+          </div>
+          <p className="text-white text-sm mt-2">(Use ← / → keys to navigate)</p>
         </div>
       )}
+
+      {/* Journey Section */}
+      <section className="pb-20 max-w-7xl mx-auto px-6">
+        <h2 className="text-3xl font-bold text-[#01004b] mb-6">
+          Our Journey Through Time
+        </h2>
+        <div className="grid grid-cols-1 md:grid-cols-4">
+          {journeyPanels.map((p, i) => (
+            <div
+              key={i}
+              className="relative h-[260px] md:h-[420px] group overflow-hidden"
+            >
+              <img
+                src={p.img}
+                alt={p.title}
+                className="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-105 group-hover:grayscale-0 grayscale"
+              />
+              <div className="absolute inset-0 bg-black/40 group-hover:bg-black/20 transition-colors duration-300" />
+              <div className="absolute bottom-4 left-4 right-4 text-white">
+                <p className="bg-white/20 backdrop-blur-sm px-3 py-2 text-sm font-medium">
+                  {p.title}
+                </p>
+              </div>
+            </div>
+          ))}
+        </div>
+      </section>
+
       <Footer />
     </>
   );

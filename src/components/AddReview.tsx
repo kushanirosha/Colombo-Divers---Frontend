@@ -9,20 +9,8 @@ type Props = {
 const AddReview: React.FC<Props> = ({ onClose }) => {
   const [rating, setRating] = useState(0);
   const [hover, setHover] = useState<number | null>(null);
-  const [formData, setFormData] = useState<{
-    review: string;
-    userName: string;
-  }>({
-    review: "",
-    userName: "",
-  });
-
-  const [errors, setErrors] = useState({
-    review: "",
-    userName: "",
-    rating: "",
-  });
-
+  const [formData, setFormData] = useState({ review: "", userName: "" });
+  const [errors, setErrors] = useState({ review: "", userName: "", rating: "" });
   const [generalError, setGeneralError] = useState<string | null>(null);
   const [success, setSuccess] = useState(false);
 
@@ -30,24 +18,15 @@ const AddReview: React.FC<Props> = ({ onClose }) => {
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
     const { name, value } = e.target;
-    setFormData((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
+    setFormData(prev => ({ ...prev, [name]: value }));
 
-    if (name === "userName" && value.trim()) {
-      setErrors((prev) => ({ ...prev, userName: "" }));
-    }
-    if (name === "review" && value.trim()) {
-      setErrors((prev) => ({ ...prev, review: "" }));
-    }
+    if (name === "userName" && value.trim()) setErrors(prev => ({ ...prev, userName: "" }));
+    if (name === "review" && value.trim()) setErrors(prev => ({ ...prev, review: "" }));
   };
 
   const handleRatingChange = (value: number) => {
     setRating(value);
-    if (value > 0) {
-      setErrors((prev) => ({ ...prev, rating: "" }));
-    }
+    if (value > 0) setErrors(prev => ({ ...prev, rating: "" }));
   };
 
   const validate = () => {
@@ -58,12 +37,10 @@ const AddReview: React.FC<Props> = ({ onClose }) => {
       tempErrors.userName = "Please enter your name to personalize your review.";
       valid = false;
     }
-
     if (!formData.review.trim()) {
       tempErrors.review = "We'd love to hear your thoughts. Please write your review!";
       valid = false;
     }
-
     if (rating === 0) {
       tempErrors.rating = "Please select a rating to share your experience.";
       valid = false;
@@ -79,16 +56,12 @@ const AddReview: React.FC<Props> = ({ onClose }) => {
     if (validate()) {
       try {
         const userId = localStorage.getItem("userid");
-
         if (!userId) {
           setGeneralError("You must be logged in to submit a review.");
           return;
         }
-        const reviewData = {
-          ...formData,
-          rating,
-          userId,
-        };
+
+        const reviewData = { ...formData, rating, userId };
         await ApiService.createReview(reviewData);
         setSuccess(true);
         setFormData({ review: "", userName: "" });
@@ -101,33 +74,22 @@ const AddReview: React.FC<Props> = ({ onClose }) => {
 
   if (success) {
     return (
-      <div className="max-w-2xl mx-auto" style={{ padding: 24 }}>
-        <div style={{ background: "#fff", borderRadius: 12, overflow: "hidden", boxShadow: "0 8px 30px rgba(2,6,23,0.2)" }}>
-          <div style={{ padding: 28, textAlign: "center" }}>
-            <div style={{ display: "inline-flex", alignItems: "center", justifyContent: "center", width: 84, height: 84, borderRadius: 42, background: "linear-gradient(135deg,#1B409F33,#23a6d533)", margin: "0 auto 16px" }}>
-              <FaCheckCircle size={44} color="#40cc5cff" />
+      <div className="max-w-2xl mx-auto p-6">
+        <div className="bg-white rounded-xl shadow-2xl overflow-hidden">
+          <div className="p-8 text-center">
+            <div className="mx-auto mb-4 w-20 h-20 flex items-center justify-center rounded-full bg-gradient-to-br from-blue-100/30 to-blue-200/30">
+              <FaCheckCircle size={44} className="text-green-500" />
             </div>
-            <h3 style={{ margin: 0, fontSize: 20, fontWeight: 700, color: "#0b1220" }}>Thanks — Review submitted successfully!</h3>
-            <p style={{ marginTop: 8, color: "#556074" }}>
+            <h3 className="text-xl font-bold text-gray-900">Thanks — Review submitted successfully!</h3>
+            <p className="mt-2 text-gray-500">
               We appreciate your feedback. It helps others plan better journeys.
             </p>
-            <div style={{ display: "flex", justifyContent: "center", marginTop: 18 }}>
-              <button
-                onClick={() => {
-                  if (onClose) onClose();
-                }}
-                style={{
-                  padding: "8px 19px",
-                  border: "none",
-                  background: "#1B409F",
-                  color: "#fff",
-                  cursor: "pointer",
-                  fontWeight: 600,
-                }}
-              >
-                OK
-              </button>
-            </div>
+            <button
+              onClick={() => onClose && onClose()}
+              className="mt-6 px-6 py-2 bg-blue-700 hover:bg-blue-800 text-white font-semibold rounded-lg transition"
+            >
+              OK
+            </button>
           </div>
         </div>
       </div>
@@ -135,45 +97,40 @@ const AddReview: React.FC<Props> = ({ onClose }) => {
   }
 
   return (
-    <div className="max-w-3xl mx-auto">
-      <div className="bg-white/10 backdrop-blur-lg rounded-t-2xl p-6 border-b border-white/20">
-        <div className="flex items-start justify-between">
-          <div>
-            <h2 className="text-2xl font-bold text-white">Share Your Experience</h2>
-            <p className="text-blue-100 mt-2">Let others know about your journey with us</p>
-          </div>
-          <button
-            aria-label="Close"
-            onClick={() => onClose && onClose()}
-            className="text-white text-xl p-2 rounded hover:bg-white/10"
-            title="Close"
-          >
-            <FaTimes />
-          </button>
+    <div className="max-w-3xl mx-auto bg-white rounded-2xl shadow-xl overflow-hidden">
+      {/* Header */}
+      <div className="bg-blue-700/10 p-6 border-b border-blue-200 flex items-start justify-between">
+        <div>
+          <h2 className="text-2xl font-bold text-blue-900">Share Your Experience</h2>
+          <p className="mt-1 text-blue-200">Let others know about your journey with us</p>
         </div>
+        <button
+          onClick={() => onClose && onClose()}
+          aria-label="Close"
+          className="text-white text-xl p-2 rounded hover:bg-white/10 transition"
+        >
+          <FaTimes />
+        </button>
       </div>
 
-      <div className="bg-white rounded-b-2xl shadow-xl p-8">
+      {/* Body */}
+      <div className="p-8 space-y-6">
         {generalError && (
-          <div className="flex items-center justify-center bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-md shadow-sm mb-6 animate-fade-in">
-            <FaExclamationCircle className="mr-2 text-xl text-red-500" />
-            <span className="font-medium">{generalError}</span>
+          <div className="flex items-center bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-md shadow-sm animate-fade-in">
+            <FaExclamationCircle className="mr-2 text-red-500" />
+            {generalError}
           </div>
         )}
 
         <form onSubmit={handleSubmit} className="space-y-6">
-          <div className="mb-8">
-            <label className="block text-gray-700 font-medium mb-3">
-              How would you rate your experience?
-            </label>
+          {/* Rating */}
+          <div>
+            <label className="block text-gray-700 font-medium mb-2">How would you rate your experience?</label>
             <div className="flex space-x-3 text-3xl">
               {[...Array(5)].map((_, i) => {
                 const starValue = i + 1;
                 return (
-                  <label
-                    key={i}
-                    className="cursor-pointer transform hover:scale-110 transition-transform"
-                  >
+                  <label key={i} className="cursor-pointer transform hover:scale-110 transition-transform">
                     <input
                       type="radio"
                       name="rating"
@@ -200,6 +157,7 @@ const AddReview: React.FC<Props> = ({ onClose }) => {
             )}
           </div>
 
+          {/* Review */}
           <div>
             <label className="block text-gray-700 font-medium mb-2">Your Review:</label>
             <textarea
@@ -208,16 +166,17 @@ const AddReview: React.FC<Props> = ({ onClose }) => {
               onChange={handleChange}
               rows={4}
               placeholder="Share your thoughts..."
-              className="w-full border-2 border-gray-100 rounded-lg p-4 focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all resize-none"
+              className="w-full border-2 border-gray-200 rounded-lg p-4 focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none resize-none transition"
             />
             {errors.review && (
-              <div className="flex items-center mt-2 text-red-500 text-sm animate-fade-in">
+              <div className="flex items-center mt-1 text-red-500 text-sm animate-fade-in">
                 <FaExclamationCircle className="mr-1" />
                 {errors.review}
               </div>
             )}
           </div>
 
+          {/* Name */}
           <div>
             <label className="block text-gray-700 font-medium mb-2">Name:</label>
             <input
@@ -226,7 +185,7 @@ const AddReview: React.FC<Props> = ({ onClose }) => {
               value={formData.userName}
               onChange={handleChange}
               placeholder="Your name"
-              className="w-full border-2 border-gray-100 rounded-lg p-3 focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all"
+              className="w-full border-2 border-gray-200 rounded-lg p-3 focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition"
             />
             {errors.userName && (
               <div className="flex items-center mt-1 text-red-500 text-sm animate-fade-in">
@@ -236,17 +195,18 @@ const AddReview: React.FC<Props> = ({ onClose }) => {
             )}
           </div>
 
-          <div className="flex justify-end space-x-4 mt-8">
+          {/* Buttons */}
+          <div className="flex justify-end space-x-4">
             <button
               type="button"
               onClick={() => onClose && onClose()}
-              className="px-6 py-3 text-gray-700 hover:text-gray-900 font-medium rounded-lg transition-colors curosr-pointer hover:bg-gray-100"
+              className="px-6 py-2 text-gray-700 hover:text-gray-900 font-medium rounded-lg transition hover:bg-gray-100"
             >
               Cancel
             </button>
             <button
               type="submit"
-              className="px-4 py-0.2 text-sm bg-[#1B409F] hover:bg-[#163577] text-white font-medium rounded-md shadow-md hover:shadow-lg transition-all transform hover:-translate-y-0.5"
+              className="px-6 py-2 bg-blue-700 hover:bg-blue-800 text-white font-medium rounded-lg shadow-md transition transform hover:-translate-y-0.5"
             >
               Submit
             </button>

@@ -75,17 +75,17 @@ const Footer = () => {
             <ul className="space-y-2">
               <li>
                 <a href="#" className="hover:underline">
-                  Email: info@paradisepeak.com
+                  Email: info@colombodivers.lk
                 </a>
               </li>
               <li>
                 <a href="#" className="hover:underline">
-                  Phone: +1 (234) 567-890
+                  Phone: +94 (11) 567 8907
                 </a>
               </li>
               <li>
                 <a href="#" className="hover:underline">
-                  Address: Colombo, Sri Lanka Addu, Maldives
+                  Address: Negombo, Sri Lanka.
                 </a>
               </li>
             </ul>
@@ -139,8 +139,8 @@ const Footer = () => {
         <hr className="my-8 border-gray-200" />
         <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-4">
           <div className="mb-4 md:mb-0">
-            <span className="text-3xl font-bold text-blue-900">
-              Paradisepeak Travels.
+            <span className="text-3xl text-blue-900">
+              Colombo Divers (Pvt) Ltd
             </span>
           </div>
           <div className="flex space-x-4">
